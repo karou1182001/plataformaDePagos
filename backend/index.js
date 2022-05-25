@@ -62,13 +62,11 @@ const db = mysql.createConnection({
     });
   });
 
+   //Método para ACTUALIZAR dentro de la base de datos:
   app.put("/update", (req, res)=>{
     //Var del frontend
     const userName= req.body.userName;
     const newUserName= req.body.newUserName;
-    console.log("hi")
-    console.log(userName);
-    console.log(newUserName);
     //Eliminar
     const sqlUpdate= "UPDATE usuarios SET userName = ? WHERE userName= ?";
     db.query(sqlUpdate, [newUserName, userName], (error, result)=>{
