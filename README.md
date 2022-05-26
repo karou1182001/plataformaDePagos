@@ -11,6 +11,7 @@ ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '112358';
   y deben crear el schema plat_de_pagos 
 
 5. Video base del que nos estamos guiando para hacer el CRUD
+https://youtu.be/nqu9Zt68J_M
 
 6. Para que les pueda correr tiene que abrir dos terminales
 En la primera terminal van a entrar a la carpeta frontend con el comando:
