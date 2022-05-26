@@ -1,103 +1,30 @@
-//Función: Aquí se harán las conexiones
+//Función: Aquí es lo que une todo del backend
 
 /*-------------------VARIABLES--------------------- */
-const express = require("express");
+import express, { json } from "express";
+import cors from "cors";
+//Importamos la conexión a la base de datos
+import db from "./database/db.js";
+//Enrutador a los métodos del controlador
+import userRoutes from "./routes/routes.js"
+
 const app = express();
-const mysql = require('mysql');
-const bodyParser= require("body-parser");
-const cors= require("cors");
 
+app.use(cors());
+app.use(json());
+app.use("/users",userRoutes);
 
-/*-------------------MÉTODOS---------------------- */
-
-//Hace la conexión con la base de datos que actualmente está de manera local
-const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "112358",
-    database: "plat_de_pagos"
-  });
-
-  //Testea la conexión
-  db.connect(function(err) {
-    if (err) {
-      return console.error('error: ' + err.message);
-    }
-  
+try {
+    await db.authenticate();
     console.log('Connected to the MySQL server.');
-  });
-
-  app.use(cors());
-  app.use(express.json());
-  app.use(bodyParser.urlencoded({extended: true}));
+} catch (error) {
+    console.error('error: ' + error.message);
+}
 
 
-  //Método para CONSULTAR dentro de la base de datos:
-  app.get("/getUsers", (req, res) => {
-    const query= "SELECT * FROM usuarios";
-    db.query(query, (error, result) => {
-      if (error) {
-        //Si hay algún error haciendo la consulta
-        //Lo imprimimos en consola
-        console.log(error);
-      } else {
-        //Si no hay ningún error, enviamos la información
-        //al frontend
-        res.send(result);
-      }
-    });
-  });
-    
-
-  //Método para INSERTAR dentro de la base de datos:
-  //Cuando el usuario entre a la ruta create, va a tomar la variable req.body.userName
-  //que se le envía del frontend y con ella hará un insert en la base de datos
-  app.post("/create", (req, res)=> {
-    //Var del frontend
-    const userName= req.body.userName;
-    //Insertar
-    const sqlInsert=  "INSERT INTO usuarios (userName) VALUES (?)";
-    db.query(sqlInsert, [userName], (error, result)=>{
-      console.log(result);
-    });
-  });
-
-   //Método para ACTUALIZAR dentro de la base de datos:
-  app.put("/update", (req, res)=>{
-    //Var del frontend
-    const userName= req.body.userName;
-    const newUserName= req.body.newUserName;
-    //Eliminar
-    const sqlUpdate= "UPDATE usuarios SET userName = ? WHERE userName= ?";
-    db.query(sqlUpdate, [newUserName, userName], (error, result)=>{
-      if (error) {
-        //Si hay algún error haciendo la consulta
-        //Lo imprimimos en consola
-        console.log(error);
-      } 
-    });
-  });
-
-  
-  //Método para ELIMINAR dentro de la base de datos:
-  //Cuando el usuario oprima delete, se pasará la siguiente ruta que a través
-  //de la url pasará la varible userName con el nombre del usuario a eliminar
-  app.delete("/delete/:userName", (req, res)=>{
-    //Var pasada a través del link
-    const userName= req.params.userName;
-    //Eliminar
-    const sqlDelete= "DELETE FROM usuarios WHERE userName = ?";
-    db.query(sqlDelete, userName, (error, result)=>{
-      if (error) {
-        //Si hay algún error haciendo la consulta
-        //Lo imprimimos en consola
-        console.log(error);
-      } 
-    });
-  });
-
-
-
+app.get("/",(req,res)=>{
+    res.send("HOLA MUNDO");
+})
 
 
 
