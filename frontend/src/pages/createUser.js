@@ -3,7 +3,7 @@ import { useState} from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
-const URI= "http://localhost:3001/users";
+const URI= "http://localhost:3001/users/";
 
 function CompCreateUser(){
     /*--------------------VARIABLES------------------------- */

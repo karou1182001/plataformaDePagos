@@ -6,7 +6,7 @@ import cors from "cors";
 //Importamos la conexión a la base de datos
 import db from "./database/db.js";
 //Enrutador a los métodos del controlador
-import userRoutes from "./routes/routes.js"
+import userRoutes from "./routes/routes.js" 
 
 const app = express();
 
@@ -20,12 +20,6 @@ try {
 } catch (error) {
     console.error('error: ' + error.message);
 }
-
-
-app.get("/",(req,res)=>{
-    res.send("HOLA MUNDO");
-})
-
 
 
 

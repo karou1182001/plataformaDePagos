@@ -3,7 +3,7 @@ import { createUser, deleteUser, getAllUsers, getUser, updateUser } from "../con
 const app = express();
 const router= express.Router();
 
-router.get("/", getAllUsers);
+router.get("/", getAllUsers)
 router.get('/:id', getUser)
 router.post('/', createUser)
 router.put('/:id', updateUser)
