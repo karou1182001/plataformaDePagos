@@ -1,11 +1,14 @@
 
-import './App.css';
+//import './App.css';
 
 //importamos los componentes
-import CompShowUsers from './pages/showUsers';
-import CompCreateUser from './pages/createUser';
-import CompEditUser from './pages/editUser';
-import CompPagos from './pages/pagos';
+import CompShowUsers from './pages/users/showUsers';
+import CompCreateUser from './pages//users/createUser';
+import CompEditUser from './pages//users/editUser';
+import CompPagos from './pages/pagos/pagos';
+import React from 'react'
+import ReactDOM from 'react-dom'
+
 //importamos el router
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
@@ -14,10 +17,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 
 function App() {
-
-
-
-
   return (
     <div className="App">
       <BrowserRouter>
