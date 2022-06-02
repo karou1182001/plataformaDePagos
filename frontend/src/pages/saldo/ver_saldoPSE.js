@@ -24,9 +24,9 @@ function VerSaldoPSE() {
         setPSEList(res.data);
      } 
  
-     //Eliminar un usuario
-     const deleteTarjeta= async(id)=>{
-         await axios.delete(`${URI}${id}`)
+     //Eliminar una tarjeta
+     const deleteTarjeta= async(idTarjeta)=>{
+         await axios.delete(`${URI}${idTarjeta}`)
          
          //Llamamos al getAllUsers para ver cómo quedó la lista de usuarios
          getAllTarjetasPSE()
@@ -54,7 +54,7 @@ function VerSaldoPSE() {
                                     <td> { tarjeta.monto} </td>  
                                     <td> { tarjeta.tipoPersona} </td>            
                                    <td>
-                                   <button onClick={ ()=>deleteTarjeta(tarjeta.id) } className='btn btn-danger'><i className="fas fa-trash-alt"></i></button>
+                                   <button onClick={ ()=>deleteTarjeta(tarjeta.idTarjeta) } className='btn btn-danger'><i className="fas fa-trash-alt"></i></button>
                             </td>
                                 </tr>
                             )) }

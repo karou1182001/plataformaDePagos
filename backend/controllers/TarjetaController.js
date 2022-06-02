@@ -64,7 +64,6 @@ export const getAllTarjetasPSE= async (req, res)=>{
         }
       }
     res.json(data);
-    console.log(bancos);
   } catch (error) {
     res.json({message: error.message});
   }
@@ -110,14 +109,20 @@ export const updateTarjeta= async (req, res)=>{
   }
 }
 
-//ELIMINAR un usuario
+//Eliminar una tarjeta
 export const deleteTarjeta= async (req, res)=>{
   try {
+    console.log(req.params.id);
+    await tarjetaCreditoModel.destroy({
+      where: {idTarjeta: req.params.id}
+    });
+    await tarjetaPSEModel.destroy({
+      where: {idTarjeta: req.params.id}
+    });
     await tarjetaModel.destroy({
-      where: {id: req.params.id}
+      where: {idTarjeta: req.params.id}
     });
     res.json({"message": "Tarjeta eliminada"});
-
   } catch (error) {
     res.json({message: error.message});
   }
