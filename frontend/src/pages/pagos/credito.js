@@ -16,33 +16,49 @@ function CompCredito() {
      /*-----------------------INTERFAZ GRÁFICA-------------------------- */
     return(
         <div className="container">
-            <div className="input-group">
-                {/*Número de tarjeta */}
-                <div className="input-box">
-                    <input type="tel"
-                    placeholder="Card Number"
-                    required class="name"/>
-                    <i className="fa fa-credit-card icon"></i>  
+                <div className="input-group">
+                    <h4></h4>
+                    <img src="/images/tarjetasvalidas.png"  width="150" alt="images"></img>
                 </div>
-                <div className="input-box">
-                    <input type="tel"
-                    placeholder="CCV"
-                    required class="name"/>
-                    <i className="fa fa-user icon"></i>  
+                
+                 <div className="input-group">
+                    {/*Número de tarjeta */}
+                    <div className="input-box">
+                        <input type="tel"
+                        placeholder="Número de tarjeta (Ej: **** **** **** ****)"
+                        required class="name"/>
+                        <i className="fa fa-credit-card icon"></i>  
+                     </div>
                 </div>
-                <div className="input-box">
-                    <select>
-                        <option>01 Jun</option>
-                        <option>02 Jun</option>
-                        <option>03 Jun</option>
-                    </select>
-                    <select>
-                        <option>2020</option>
-                        <option>2021</option>
-                        <option>2022</option>
-                    </select>
+                {/*Código de seguridad*/}
+                <div className="input-group">
+                    <div className="input-box">
+                        <input type="number"
+                        placeholder="CCV (Ej: 123)"
+                        required class="name"/>
+                        <i className="fa-solid fa-lock icon"></i>  
+                    </div>
                 </div>
-            </div>
+                 <div className="input-group">
+                     
+                    <div className="input-box">
+                        <h5>Fecha de expiración</h5>
+                        <input type="month"
+                        placeholder="MM/YY"
+                        required class="dob"/>
+                        
+                        <input type="number"
+                        placeholder="# Cuotas"
+                        required class="dob"/> 
+
+                        {/*<input type="date"
+                        placeholder="YY"
+                        required class="dob"/> */}
+                    
+                    </div>
+                    
+                </div>
+            
             <div className="input-group">
                 <div className="input-box">
                     <button type="submit">PAY NOW</button>

@@ -19,38 +19,90 @@ function CompPagos() {
     
     return(
         <div className= "wrapper">
-            <h2>Payment form</h2>
+           
+            
             <form method="POST">
-                <h4>Account</h4>
-                <div className="input-group">
-                    {/*Nombre de usuario */}
-                    <div className="input-box">
+                <div class="payment-logo">
+                    <p>p</p>
+                </div>
+                
+                <h4>Cuenta</h4>
+                {/*Nombre de usuario */}
+                <div class="input-group">
+                    <div class="input-box">
                         <input type="text"
-                        placeholder="Full name"
+                        placeholder="Nombre completo"
                         required class="name"/>
                         <i className="fa fa-user icon"></i>  
                     </div>
-                    {/*Email de usuario */}
+                </div>
+                {/*Email de usuario */}
+                <div className="input-group">
                     <div className="input-box">
-                        <input type="text"
+                        <input type="email"
                         placeholder="Email"
                         required class="name"/>
                         <i className="fa fa-envelope icon"></i>  
                     </div>
                 </div>
+                {/*Cédula*/}
                 <div className="input-group">
-                    {/*Día de cumpleaños */}
+                    <div className="input-box">
+                        <input type="text"
+                        placeholder="Cédula"
+                        required class="name"/>
+                        <i class="fas fa-id-card icon"></i> 
+                    </div>
+                </div>
+                 {/*Celular*/}
+                 <div className="input-group">
+                    <div className="input-box">
+                        <input type="tel"
+                        placeholder="Celular"
+                        required class="name"/>
+                        <i class="fa-solid fa-phone icon"></i> 
+                    </div>
+                </div>
+                {/*Concepto de pago*/}
+                <div className="input-group">
+                    <div className="input-box">
+                        <input type="text"
+                        placeholder="Concepto de pago"
+                        required class="name"/>
+                        <i class="fa-solid fa-pencil icon"></i>
+                    </div>
+                </div>
+                 {/*Sede*/}
+                 <div className="input-group">
+                    <div className="input-box">
+                        <input type="text"
+                        placeholder="Sede"
+                        required class="name"/>
+                        <i className="fa fa-institution icon"></i>  
+                    </div>
+                </div>
+                 {/*Franquicia*/}
+                 <div className="input-group">
+                    <div className="input-box">
+                        <input type="text"
+                        placeholder="Franquicia"
+                        required class="name"/>
+                        <i className="fa fa-industry icon"></i>  
+                    </div>
+                </div>
+
+                {/*
+                <div className="input-group">
                     <div className="input-box">
                         <h4>Date of birth</h4>
                         <input type="text"  placeholder="DD" class="dob"/>
                         <input type="text"  placeholder="MM" class="dob"/>
                         <input type="text"  placeholder="YYYY" class="dob"/>
                     </div>
-                </div>
+                </div>*/}
                 <div className="input-group">
-                    {/*Nombre de usuario */}
                     <div className="input-box">
-                        <h4>Payment Details</h4>
+                        <h4>Detalles de pago</h4>
                         <div className= "card">
                             {/*---------------------------------------------Barra de navegación de tipo de pago----------------------------------------------------------*/}
                             <ul className="nav nav-pills mb-2" id="pills-tab" role="tablist">
