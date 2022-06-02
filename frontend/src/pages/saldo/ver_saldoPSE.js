@@ -8,20 +8,20 @@ import "../../css/payform.css";
 const URI= "http://localhost:3001/tarjetas/";
 
 
-function VerSaldo() {
+function VerSaldoPSE() {
      /*--------------------VARIABLES------------------------- */
-     const[tarjetas, setMontoList]= useState([]);
+     const[tarjetasPSE, setPSEList]= useState([]);
 
 
      /*------------------MÉTODOS-------------------------------- */
      useEffect(()=>{
-         getAllTarjetas()
+         getAllTarjetasPSE()
      },[])
  
-     //Mostrar todos las tarjetas de credito
-     const getAllTarjetas= async()=>{
-        const res= await axios.get(URI);
-        setMontoList(res.data);
+     //Mostrar todas las tarjetas PSE
+     const  getAllTarjetasPSE= async()=>{
+        const res= await axios.get(URI+'/'+'PSE');
+        setPSEList(res.data);
      } 
  
      //Eliminar un usuario
@@ -29,7 +29,7 @@ function VerSaldo() {
          await axios.delete(`${URI}${id}`)
          
          //Llamamos al getAllUsers para ver cómo quedó la lista de usuarios
-         getAllTarjetas();
+         getAllTarjetasPSE()
      } 
  
       /*-----------------------INTERFAZ GRÁFICA-------------------------- */
@@ -37,22 +37,22 @@ function VerSaldo() {
         <div className='container'>
             <div className='row'>
                  <div className='col'>
-                 <h1><center>Tarjetas Crédito registradas</center></h1>
+                 <h1><center>Tarjetas PSE registradas</center></h1>
                      <table className='table'>
                          <thead className='table-primary'>
                          <tr align="center">
-                                <th>Vencimiento</th>
+                                <th>Banco</th>
                                 <th>Saldo</th>
-                                {<th>Tipo</th>}
+                                {<th>Persona</th>}
                                 <th>Quitar</th>
                             </tr>
                         </thead>
                         <tbody>
-                            { tarjetas.map ( (tarjeta) => (
+                            { tarjetasPSE.map ( (tarjeta) => (
                                 <tr key={ tarjeta.id} align="center">
-                                    <td> {tarjeta.fechaVenc} </td>
+                                    <td> {tarjeta.nombreBanco} </td>
                                     <td> { tarjeta.monto} </td>  
-                                    <td> { tarjeta.tipo} </td>            
+                                    <td> { tarjeta.tipoPersona} </td>            
                                    <td>
                                    <button onClick={ ()=>deleteTarjeta(tarjeta.id) } className='btn btn-danger'><i className="fas fa-trash-alt"></i></button>
                             </td>
@@ -63,14 +63,14 @@ function VerSaldo() {
                 </div>
                 <div>
                 <Link to="/create" className='btn btn-primary'><i>Registrar tarjeta</i></Link>
-                <Link to="/versaldo/versaldoPSE" className='btn btn-primary'><i>Ver tarjetas PSE</i></Link>
+                <Link to="/versaldo" className='btn btn-primary'><i>Ver tarjetas Crédito</i></Link>
                 </div>
              </div>
         </div>
     )
 }
 
-export default VerSaldo;
+export default VerSaldoPSE;
 
 
 

@@ -2,7 +2,8 @@
 
 import tarjetaModel from "../models/TarjetaModel.js";
 import tarjetaCreditoModel from "../models/TarjetaCreditoModel.js";
-
+import tarjetaPSEModel from "../models/TarjetaPSEModel.js";
+import BancoModel from "../models/BancoModel.js";
 /*---------------------MÉTODOS PARA EL CRUD----------------------- */
 
 //Consultar todas las tarjetas
@@ -34,15 +35,40 @@ export const getAllTarjetas= async (req, res)=>{
   }
 }
 
-/*export const getAllTarjetas= async (req, res)=>{
+export const getAllTarjetasPSE= async (req, res)=>{
   try {
-    const tarjetas2= await tarjetaCreditoModel.findAll();
-    console.log(tarjetas2);
-    res.json(tarjetas2);
+    var cont=0;
+    var data=[new Map()];
+    const tarjetas= await tarjetaModel.findAll();
+    const tarjetasPSE= await tarjetaPSEModel.findAll();
+    const bancos= await BancoModel.findAll();
+    for (var i=0;i<tarjetas.length;i++){
+      for (var index = 0; index < tarjetasPSE.length; index++) {
+        if(tarjetas[i].idTarjeta==tarjetasPSE[index].idTarjeta){
+          for (var index2 = 0; index2 < bancos.length; index2++) {
+            if(tarjetasPSE[index].idBanco==bancos[index2].idBanco){
+              var nombreBanco=bancos[index2].nombre;
+            }
+          }
+        data[cont]={
+          'id': tarjetas[i].id,
+          'idTarjeta': tarjetas[i].idTarjeta,
+          'monto': tarjetas[i].monto,
+          'tipoPersona':tarjetasPSE[index].tipoPersona,
+          'idBanco': tarjetasPSE[index].idBanco,
+          'nombreBanco':nombreBanco
+        }
+        cont++;
+        break;
+      }
+        }
+      }
+    res.json(data);
+    console.log(bancos);
   } catch (error) {
     res.json({message: error.message});
   }
-}*/
+}
 
 
 
