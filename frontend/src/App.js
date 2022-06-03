@@ -8,6 +8,8 @@ import CompEditUser from './pages//users/editUser';
 import CompPagos from './pages/pagos/pagos';
 import VerSaldo  from './pages/saldo/ver_saldo';
 import VerSaldoPSE from './pages/saldo/ver_saldoPSE';
+
+import RegistrarTarjeta from './pages/saldo/registrar_tarjeta';
 import React from 'react'
 import ReactDOM from 'react-dom'
 
@@ -29,6 +31,7 @@ function App() {
             <Route path='/edit/:id' element={ <CompEditUser />} />
             <Route path='/versaldo' element={ <VerSaldo />} />
             <Route path='/versaldo/versaldoPSE' element={ <VerSaldoPSE />} />
+            <Route path='/registrartarjeta' element={ <RegistrarTarjeta />} />
         </Routes>
       </BrowserRouter>
     </div>

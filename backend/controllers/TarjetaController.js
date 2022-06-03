@@ -85,11 +85,23 @@ export const getTarjeta= async (req, res)=>{
   }
 }
 
-//CREAR un usuario
+//Crear una tarjeta de credito
 export const createTarjeta= async (req, res)=>{
   try {
-    await tarjetaModel.create(req.body);
-    res.json({"message": "Usuario ingresado"});
+    var data={
+      monto: req.body.monto,
+      idTitular:1
+    }
+    await tarjetaModel.create(data);
+    const tarjetas= await tarjetaModel.findAll();
+    var data2={
+      idTarjeta: tarjetas[tarjetas.length-1].idTarjeta,
+      codSeg:req.body.codSeg,
+      fechaVenc:req.body.fechaVenc,
+      tipoTarjeta: req.body.tipoTarjeta
+    }
+    await tarjetaCreditoModel.create(data2);
+    res.json({"message": "Tarjeta ingresada con exito"});
 
   } catch (error) {
     res.json({message: error.message});
