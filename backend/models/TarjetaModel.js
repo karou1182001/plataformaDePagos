@@ -3,8 +3,7 @@ import db from "../database/db.js";
 //Importamos sequelize
 import { DataTypes } from "sequelize";
 
-const tarjetaModel= db.define("tarjeta",{
-    idTarjeta: {type: DataTypes.INTEGER},
+const tarjetaModel= db.define("tarjetas",{
     monto: {type: DataTypes.INTEGER},
     idTitular: {type: DataTypes.INTEGER}
 })

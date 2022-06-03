@@ -15,14 +15,16 @@ export const getAllTarjetas= async (req, res)=>{
     const tarjetasCredito= await tarjetaCreditoModel.findAll();
     for (var i=0;i<tarjetas.length;i++){
       for (var index = 0; index < tarjetasCredito.length; index++) {
-        if(tarjetas[i].idTarjeta==tarjetasCredito[index].idTarjeta){
+        if(tarjetas[i].id==tarjetasCredito[index].idTarjeta){
+          var nombres = tarjetasCredito[index].fechaVenc;
+          var listaNombres = nombres.split(' ');
           data[cont]={
             'id': tarjetas[i].id,
-            'idTarjeta': tarjetas[i].idTarjeta,
             'monto': tarjetas[i].monto,
             'tipo':tarjetasCredito[index].tipoTarjeta,
             'codSeg':tarjetasCredito[index].codSeg,
-            'fechaVenc':tarjetasCredito[index].fechaVenc
+            'fechaVenc':listaNombres[0],
+            'numTarjeta': tarjetasCredito[index].numTarjeta
           }
           cont++;
           break;
@@ -44,19 +46,18 @@ export const getAllTarjetasPSE= async (req, res)=>{
     const bancos= await BancoModel.findAll();
     for (var i=0;i<tarjetas.length;i++){
       for (var index = 0; index < tarjetasPSE.length; index++) {
-        if(tarjetas[i].idTarjeta==tarjetasPSE[index].idTarjeta){
+        if(tarjetas[i].id==tarjetasPSE[index].idTarjeta){
           for (var index2 = 0; index2 < bancos.length; index2++) {
-            if(tarjetasPSE[index].idBanco==bancos[index2].idBanco){
+            if(tarjetasPSE[index].idBanco==bancos[index2].id){
               var nombreBanco=bancos[index2].nombre;
             }
           }
         data[cont]={
           'id': tarjetas[i].id,
-          'idTarjeta': tarjetas[i].idTarjeta,
           'monto': tarjetas[i].monto,
           'tipoPersona':tarjetasPSE[index].tipoPersona,
           'idBanco': tarjetasPSE[index].idBanco,
-          'nombreBanco':nombreBanco
+          'nombreBanco':nombreBanco,
         }
         cont++;
         break;
@@ -95,22 +96,25 @@ export const createTarjeta= async (req, res)=>{
     await tarjetaModel.create(data);
     const tarjetas= await tarjetaModel.findAll();
     var data2={
-      idTarjeta: tarjetas[tarjetas.length-1].idTarjeta,
+      idTarjeta: tarjetas[tarjetas.length-1].id,
       codSeg:req.body.codSeg,
       fechaVenc:req.body.fechaVenc,
-      tipoTarjeta: req.body.tipoTarjeta
+      tipoTarjeta: req.body.tipoTarjeta,
+      numTarjeta: req.body.numTarjeta
     }
+    console.log('El valor del numero es :' +req.body.numTarjeta);
     await tarjetaCreditoModel.create(data2);
     res.json({"message": "Tarjeta ingresada con exito"});
 
   } catch (error) {
-    res.json({message: error.message});
+    res.json({message: error.message+"aquiiiii"});
   }
 }
 
 //Crear una tarjeta PSE
 export const createTarjetaPSE= async (req, res)=>{
   try {
+    console.log(req.body)
     var aux=0;
     var data={
       monto: req.body.monto,
@@ -121,11 +125,11 @@ export const createTarjetaPSE= async (req, res)=>{
     const bancos= await BancoModel.findAll();
     bancos.forEach(element => {
       if(element.nombre==req.body.nombre){
-        aux=element.idBanco;
+        aux=element.id;
       }
     });
     var data2={
-      idTarjeta: tarjetas[tarjetas.length-1].idTarjeta,
+      idTarjeta: tarjetas[tarjetas.length-1].id,
       tipoPersona:req.body.tipoPersona,
       idBanco:aux,
     }
@@ -152,15 +156,8 @@ export const updateTarjeta= async (req, res)=>{
 //Eliminar una tarjeta
 export const deleteTarjeta= async (req, res)=>{
   try {
-    console.log(req.params.id);
-    await tarjetaCreditoModel.destroy({
-      where: {idTarjeta: req.params.id}
-    });
-    await tarjetaPSEModel.destroy({
-      where: {idTarjeta: req.params.id}
-    });
     await tarjetaModel.destroy({
-      where: {idTarjeta: req.params.id}
+      where: {id: req.params.id}
     });
     res.json({"message": "Tarjeta eliminada"});
   } catch (error) {

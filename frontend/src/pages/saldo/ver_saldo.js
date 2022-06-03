@@ -25,8 +25,8 @@ function VerSaldo() {
      } 
  
      //Eliminar una tarjeta
-     const deleteTarjeta= async(idTarjeta)=>{
-         await axios.delete(`${URI}${idTarjeta}`)
+     const deleteTarjeta= async(id)=>{
+         await axios.delete(`${URI}${id}`)
 
          //Llamamos al getAllUsers para ver cómo quedó la lista de usuarios
          getAllTarjetas();
@@ -41,6 +41,7 @@ function VerSaldo() {
                      <table className='table'>
                          <thead className='table-primary'>
                          <tr align="center">
+                                <th>N. tarjeta</th>
                                 <th>Vencimiento</th>
                                 <th>Saldo</th>
                                 <th>Tipo</th>
@@ -50,11 +51,12 @@ function VerSaldo() {
                         <tbody>
                             { tarjetas.map ( (tarjeta) => (
                                 <tr key={ tarjeta.id} align="center">
+                                    <td> {tarjeta.numTarjeta} </td>
                                     <td> {tarjeta.fechaVenc} </td>
                                     <td> { tarjeta.monto} </td>  
                                     <td> { tarjeta.tipo} </td>            
                                    <td>
-                                   <button onClick={ ()=>deleteTarjeta(tarjeta.idTarjeta) } className='btn btn-danger'><i className="fas fa-trash-alt"></i></button>
+                                   <button onClick={ ()=>deleteTarjeta(tarjeta.id) } className='btn btn-danger'><i className="fas fa-trash-alt"></i></button>
                             </td>
                                 </tr>
                             )) }

@@ -3,12 +3,11 @@ import db from "../database/db.js";
 //Importamos sequelize
 import { DataTypes } from "sequelize";
 
-const BancoModel= db.define("banco",{
-    idBanco:{type: DataTypes.INTEGER},
+const BancoModel= db.define("bancos",{
     nombre: {type: DataTypes.STRING},
     estado: {type: DataTypes.INTEGER}
 },{
-    freezeTableName: true
+    freezeTableName: true//El nombre del modelo es igual al de la tabla
   })
 
 export default BancoModel
