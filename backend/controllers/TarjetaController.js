@@ -108,6 +108,34 @@ export const createTarjeta= async (req, res)=>{
   }
 }
 
+//Crear una tarjeta PSE
+export const createTarjetaPSE= async (req, res)=>{
+  try {
+    var aux=0;
+    var data={
+      monto: req.body.monto,
+      idTitular:1
+    }
+    await tarjetaModel.create(data);
+    const tarjetas= await tarjetaModel.findAll();
+    const bancos= await BancoModel.findAll();
+    bancos.forEach(element => {
+      if(element.nombre==req.body.nombre){
+        aux=element.idBanco;
+      }
+    });
+    var data2={
+      idTarjeta: tarjetas[tarjetas.length-1].idTarjeta,
+      tipoPersona:req.body.tipoPersona,
+      idBanco:aux,
+    }
+    await tarjetaPSEModel.create(data2);
+    res.json({"message": "Tarjeta ingresada con exito"});
+  } catch (error) {
+    res.json({message: error.message});
+  }
+}
+
 //ACTUALIZAR un usuario
 export const updateTarjeta= async (req, res)=>{
   try {

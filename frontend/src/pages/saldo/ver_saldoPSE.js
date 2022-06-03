@@ -62,7 +62,7 @@ function VerSaldoPSE() {
                     </table>
                 </div>
                 <div>
-                <Link to="/create" className='btn btn-primary'><i>Registrar tarjeta</i></Link>
+                <Link to="/registrartarjetaPSE" className='btn btn-primary'><i>Registrar tarjeta</i></Link>
                 <Link to="/versaldo" className='btn btn-primary'><i>Ver tarjetas Crédito</i></Link>
                 </div>
              </div>

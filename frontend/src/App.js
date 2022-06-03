@@ -15,6 +15,7 @@ import ReactDOM from 'react-dom'
 
 //importamos el router
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import RegistrarTarjetaPSE from './pages/saldo/registrar_tarjeta_PSE';
 
 
 
@@ -32,6 +33,7 @@ function App() {
             <Route path='/versaldo' element={ <VerSaldo />} />
             <Route path='/versaldo/versaldoPSE' element={ <VerSaldoPSE />} />
             <Route path='/registrartarjeta' element={ <RegistrarTarjeta />} />
+            <Route path='/registrartarjetaPSE' element={ <RegistrarTarjetaPSE />} />
         </Routes>
       </BrowserRouter>
     </div>
