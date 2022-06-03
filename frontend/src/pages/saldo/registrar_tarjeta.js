@@ -35,7 +35,8 @@ function RegistrarTarjeta(){
     return(
         <body> 
             <h1><center>Registrar tarjeta de Crédito</center></h1>
-        <form onSubmit={createTarjeta}>
+            <div className='wrapper'>
+                <form onSubmit={createTarjeta}>
              <p>Tipo de tarjeta:
              <br></br><label> <input type="radio" name="tipos" value={tipoTarjeta}  onChange={ (e)=> settipoTarjeta('Visa')} required></input> Visa</label>
              <br></br><label> <input type="radio" name="tipos" value={tipoTarjeta}  onChange={ (e)=> settipoTarjeta('Mastercard')} required></input> Mastercard</label>
@@ -45,9 +46,12 @@ function RegistrarTarjeta(){
              {/*<p>Número de tarjeta: <input type="number" name="numTarjeta" min= "0" max="9999999999999999" maxlength="16" value={numTarjeta} onChange={ (e)=> setnumTarjeta(e.target.value)}  required></input></p>*/}
               {/*<p>CVV: <input type="number" name="cvv" min= "0" max="999" maxlength="3" value={codSeg} onChange={ (e)=> setcodSeg(e.target.value)}  required></input></p>*/}
              <p>Fecha de vencimiento: <input type="date" id="start" name="fecha" min="2022-06-30" max="2030-12-31" value={fechaVenc} onChange={ (e)=> setfechaVenc(e.target.value)} required></input></p>
-           <button type="submit">Registrar</button>
-            <Link to="/versaldo" className='btn btn-primary'><i>Atrás</i></Link>
-        </form>
+             <div className='d-flex'>
+             <Link to="/versaldo" className='btn btn-primary mx-5'><i>Atrás</i></Link>
+             <button type="submit" className='btn btn-success mx-3'>Registrar</button>
+             </div>
+             </form>
+             </div>
         </body>
     )
 }

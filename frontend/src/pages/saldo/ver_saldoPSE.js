@@ -35,9 +35,9 @@ function VerSaldoPSE() {
       /*-----------------------INTERFAZ GRÁFICA-------------------------- */
       return(
         <div className='container'>
-            <div className='row'>
+                <h1><center>Tarjetas PSE registradas</center></h1>
+            <div className='row mt-3'>
                  <div className='col'>
-                 <h1><center>Tarjetas PSE registradas</center></h1>
                      <table className='table'>
                          <thead className='table-primary'>
                          <tr align="center">
@@ -51,7 +51,7 @@ function VerSaldoPSE() {
                             { tarjetasPSE.map ( (tarjeta) => (
                                 <tr key={ tarjeta.id} align="center">
                                     <td> {tarjeta.nombreBanco} </td>
-                                    <td> { tarjeta.monto} </td>  
+                                    <td> { tarjeta.monto+'$'} </td>  
                                     <td> { tarjeta.tipoPersona} </td>            
                                    <td>
                                    <button onClick={ ()=>deleteTarjeta(tarjeta.id) } className='btn btn-danger'><i className="fas fa-trash-alt"></i></button>
@@ -62,8 +62,8 @@ function VerSaldoPSE() {
                     </table>
                 </div>
                 <div>
-                <Link to="/registrartarjetaPSE" className='btn btn-primary'><i>Registrar tarjeta</i></Link>
-                <Link to="/versaldo" className='btn btn-primary'><i>Ver tarjetas Crédito</i></Link>
+                <Link to="/registrartarjetaPSE" className='btn btn-primary'>Registrar tarjeta   <i class="fa-solid fa-address-card"></i></Link>
+                <Link to="/versaldo" className='btn btn-primary mx-5'>Ver tarjetas de Crédito  <i class="fa-solid fa-arrow-right"></i></Link>
                 </div>
              </div>
         </div>

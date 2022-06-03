@@ -19,7 +19,8 @@ function RegistrarTarjetaPSE(){
     return(
         <body> 
             <h1><center>Registrar tarjeta PSE</center></h1>
-        <form onSubmit={createTarjetaPSE}>
+            <div className='wrapper'>
+            <form onSubmit={createTarjetaPSE}>
              <p>Nombre del banco:
              <br></br><label> <input type="radio" name="bancos" value={nombre}  onChange={ (e)=> setnombre('Western Bank')} required></input> Western Bank</label>
              <br></br><label> <input type="radio" name="bancos" value={nombre}  onChange={ (e)=> setnombre('East Bank')} required></input> East Bank</label>
@@ -28,9 +29,13 @@ function RegistrarTarjetaPSE(){
              <br></br><label> <input type="radio" name="personas" value={tipoPersona}  onChange={ (e)=> settipoPersona('Natural')} required></input>Natural</label>
              <br></br><label> <input type="radio" name="personas" value={tipoPersona}  onChange={ (e)=> settipoPersona('Juridica')} required></input>Juridica</label>
             </p>   
-           <button type="submit">Registrar</button>
-            <Link to="/versaldo/versaldoPSE" className='btn btn-primary'><i>Atrás</i></Link>
-        </form>
+            <div className='d-flex'>
+            <Link to="/versaldo/versaldoPSE" className='btn btn-primary mx-5'><i>Atrás</i></Link>
+            <button type="submit" className='btn btn-success mx-3'>Registrar</button>
+            </div>
+            </form>
+            </div>
+       
         </body>
     )
 }
