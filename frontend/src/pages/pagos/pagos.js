@@ -11,6 +11,9 @@ const URI= "http://localhost:3001/users/";
 
 function CompPagos() {
     /*--------------------VARIABLES------------------------- */
+    const [conceptoDePago, setconceptoDePago] = useState('');
+    const [sede, setsede] = useState('');
+    const [franquicia, setfranquicia] = useState('');
 
 
     /*------------------MÉTODOS-------------------------------- */
@@ -29,12 +32,21 @@ function CompPagos() {
                 
                 <h4>Cuenta</h4>
                 {/*Nombre de usuario */}
-                <div class="input-group">
-                    <div class="input-box">
+                <div className="input-group">
+                    <div className="input-box">
                         <input type="text"
-                        placeholder="Nombre completo"
+                        placeholder="Nombre completo*"
                         required class="name"/>
                         <i className="fa fa-user icon"></i>  
+                    </div>
+                </div>
+                {/*Cédula*/}
+                <div className="input-group">
+                    <div className="input-box">
+                        <input type="number"
+                        placeholder="Cédula*"
+                        required class="name"/>
+                        <i className="fas fa-id-card icon"></i> 
                     </div>
                 </div>
                 {/*Email de usuario */}
@@ -46,37 +58,34 @@ function CompPagos() {
                         <i className="fa fa-envelope icon"></i>  
                     </div>
                 </div>
-                {/*Cédula*/}
-                <div className="input-group">
-                    <div className="input-box">
-                        <input type="text"
-                        placeholder="Cédula"
-                        required class="name"/>
-                        <i class="fas fa-id-card icon"></i> 
-                    </div>
-                </div>
                  {/*Celular*/}
                  <div className="input-group">
                     <div className="input-box">
                         <input type="tel"
                         placeholder="Celular"
                         required class="name"/>
-                        <i class="fa-solid fa-phone icon"></i> 
+                        <i className="fa-solid fa-phone icon"></i> 
                     </div>
                 </div>
                 {/*Concepto de pago*/}
                 <div className="input-group">
                     <div className="input-box">
-                        <input type="text"
+                        <input
+                        value={conceptoDePago}
+                        onChange={ (e)=> setconceptoDePago(e.target.value)} 
+                        type="text"
                         placeholder="Concepto de pago"
                         required class="name"/>
-                        <i class="fa-solid fa-pencil icon"></i>
+                        <i className="fa-solid fa-pencil icon"></i>
                     </div>
                 </div>
                  {/*Sede*/}
                  <div className="input-group">
                     <div className="input-box">
-                        <input type="text"
+                        <input 
+                        value={sede}
+                        onChange={ (e)=> setsede(e.target.value)} 
+                        type="text"
                         placeholder="Sede"
                         required class="name"/>
                         <i className="fa fa-institution icon"></i>  
@@ -85,22 +94,15 @@ function CompPagos() {
                  {/*Franquicia*/}
                  <div className="input-group">
                     <div className="input-box">
-                        <input type="text"
+                        <input 
+                        value={franquicia}
+                        onChange={ (e)=> setfranquicia(e.target.value)} 
+                        type="text"
                         placeholder="Franquicia"
                         required class="name"/>
                         <i className="fa fa-industry icon"></i>  
                     </div>
                 </div>
-
-                {/*
-                <div className="input-group">
-                    <div className="input-box">
-                        <h4>Date of birth</h4>
-                        <input type="text"  placeholder="DD" class="dob"/>
-                        <input type="text"  placeholder="MM" class="dob"/>
-                        <input type="text"  placeholder="YYYY" class="dob"/>
-                    </div>
-                </div>*/}
                 <div className="input-group">
                     <div className="input-box">
                         <h4>Detalles de pago</h4>
@@ -119,7 +121,7 @@ function CompPagos() {
                             {/*---------------------------------------------Componentes----------------------------------------------------------*/}
                             <div className="tab-content" id="pills-tabContent">
                                 <div className="tab-pane fade show active" id="pills-credito" role="tabpanel" aria-labelledby="pills-credito-tab">
-                                    <CompCredito></CompCredito>
+                                    <CompCredito conceptoDePago={conceptoDePago} sede={sede} franquicia={franquicia}/>
                                 </div>
                                 <div className="tab-pane fade" id="pills-debito" role="tabpanel" aria-labelledby="pills-debito-tab">
                                     <CompDebito></CompDebito>

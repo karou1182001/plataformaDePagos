@@ -8,8 +8,10 @@ const URI= "http://localhost:3001/users/";
 
 function CompCreateUser(){
     /*--------------------VARIABLES------------------------- */
-    const [userName, setUserName] = useState('');
     const navigate= useNavigate();
+    const [userName, setUserName] = useState('');
+   
+    
 
     
 
