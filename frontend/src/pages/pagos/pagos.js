@@ -12,7 +12,7 @@ const URI= "http://localhost:3001/users/";
 function CompPagos() {
     /*--------------------VARIABLES------------------------- */
     const [userName, setUserName] = useState('');
-    const [cc, setCc] = useState(0);
+    const [cc, setCc] = useState('');
     const [email, setEmail] = useState('');
     const [celular, setCelular] = useState('');
     const [conceptoDePago, setconceptoDePago] = useState('');
@@ -27,13 +27,10 @@ function CompPagos() {
     
     return(
         <div className= "wrapper">
-           
-            
-            <form method="POST">
+            <form >
                 <div class="payment-logo">
                     <p>p</p>
                 </div>
-                
                 <h4>Cuenta</h4>
                 {/*Nombre de usuario */}
                 <div className="input-group">
@@ -67,7 +64,7 @@ function CompPagos() {
                         onChange={ (e)=> setEmail(e.target.value)} 
                         type="email"
                         placeholder="Email"
-                        required class="name"/>
+                        class="name"/>
                         <i className="fa fa-envelope icon"></i>  
                     </div>
                 </div>
@@ -79,7 +76,7 @@ function CompPagos() {
                         onChange={ (e)=> setCelular(e.target.value)} 
                         type="tel"
                         placeholder="Celular"
-                        required class="name"/>
+                        class="name"/>
                         <i className="fa-solid fa-phone icon"></i> 
                     </div>
                 </div>
@@ -91,7 +88,7 @@ function CompPagos() {
                         onChange={ (e)=> setconceptoDePago(e.target.value)} 
                         type="text"
                         placeholder="Concepto de pago"
-                        required class="name"/>
+                        class="name"/>
                         <i className="fa-solid fa-pencil icon"></i>
                     </div>
                 </div>
@@ -103,7 +100,7 @@ function CompPagos() {
                         onChange={ (e)=> setsede(e.target.value)} 
                         type="text"
                         placeholder="Sede"
-                        required class="name"/>
+                        class="name"/>
                         <i className="fa fa-institution icon"></i>  
                     </div>
                 </div>
@@ -115,7 +112,7 @@ function CompPagos() {
                         onChange={ (e)=> setfranquicia(e.target.value)} 
                         type="text"
                         placeholder="Franquicia"
-                        required class="name"/>
+                        class="name"/>
                         <i className="fa fa-industry icon"></i>  
                     </div>
                 </div>
@@ -137,7 +134,7 @@ function CompPagos() {
                             {/*---------------------------------------------Componentes----------------------------------------------------------*/}
                             <div className="tab-content" id="pills-tabContent">
                                 <div className="tab-pane fade show active" id="pills-credito" role="tabpanel" aria-labelledby="pills-credito-tab">
-                                    <CompCredito userName={userName} cc={cc} conceptoDePago={conceptoDePago} sede={sede} franquicia={franquicia}/>
+                                    <CompCredito userName={userName} cc={parseInt(cc)} conceptoDePago={conceptoDePago} sede={sede} franquicia={franquicia}/>
                                     
                                 </div>
                                 <div className="tab-pane fade" id="pills-debito" role="tabpanel" aria-labelledby="pills-debito-tab">
