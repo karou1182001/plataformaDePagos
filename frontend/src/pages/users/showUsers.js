@@ -35,22 +35,26 @@ function CompShowUsers() {
         <div className='container'>
             <div className='row'>
                  <div className='col'>
-                    <Link to="/create" className='btn btn-primary mt-2 mb-2'><i className="fas fa-plus"></i></Link>
+                 <Link to="/create" className='btn btn-primary mt-2 mb-2'><i className="fas fa-plus"></i></Link>
                      <table className='table'>
                          <thead className='table-primary'>
-                            <tr>
+                         <tr align="center">
                                 <th>UserId</th>
                                 <th>UserName</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             { users.map ( (user) => (
-                                <tr key={ user.id}>
+                                <tr key={ user.id} align="center">
+                                    <td> { user.id} </td>
                                     <td> { user.userName} </td>
                                     <td>
-                                        <Link to={`/edit/${user.id}`} className='btn btn-info'><i className="fas fa-edit"></i></Link>
-                                        <button onClick={ ()=>deleteUser(user.id) } className='btn btn-danger'><i className="fas fa-trash-alt"></i></button>
-                                    </td>
+                                    <div class="btn-group">
+                                    <Link to={`/edit/${user.id}`} className='btn btn-info'><i className="fas fa-edit"></i></Link>
+	                                <button onClick={ ()=>deleteUser(user.id) } className='btn btn-danger'><i className="fas fa-trash-alt"></i></button>
+                                    </div>
+                                   </td>
                                 </tr>
                             )) }
                         </tbody>

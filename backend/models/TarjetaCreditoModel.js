@@ -7,7 +7,6 @@ const TarjetaCreditoModel= db.define("tarjetacreditos",{
      idTarjeta: {type: DataTypes.INTEGER},
      numTarjeta: {type: DataTypes.INTEGER},
      codSeg: {type: DataTypes.INTEGER},
-     monto: {type: DataTypes.INTEGER},
      fechaVenc: {type: DataTypes.STRING},
      tipoTarjeta: {type: DataTypes.STRING},
 })
