@@ -64,6 +64,7 @@ function VerSaldo() {
                     </table>
                 </div>
                 <div>
+                <Link to="/pagos" className='btn btn-primary mr-5'><i class="fa-solid fa-arrow-left"></i>   Atrás</Link>
                 <Link to="/registrartarjeta" className='btn btn-primary'>Registrar tarjeta   <i class="fa-solid fa-address-card"></i></Link>
                 <Link to="/versaldo/versaldoPSE" className='btn btn-primary mx-5'>Ver tarjetas PSE  <i class="fa-solid fa-arrow-right"></i></Link>
                 </div>
