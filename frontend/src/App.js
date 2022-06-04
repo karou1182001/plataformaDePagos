@@ -8,14 +8,14 @@ import CompEditUser from './pages//users/editUser';
 import CompPagos from './pages/pagos/pagos';
 import VerSaldo  from './pages/saldo/ver_saldo';
 import VerSaldoPSE from './pages/saldo/ver_saldoPSE';
-
+import RegistrarTarjetaPSE from './pages/saldo/registrar_tarjeta_PSE';
+import RegistrarUsuario from './pages/registro/registrar_usuario';
 import RegistrarTarjeta from './pages/saldo/registrar_tarjeta';
 import React from 'react'
 import ReactDOM from 'react-dom'
 
 //importamos el router
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import RegistrarTarjetaPSE from './pages/saldo/registrar_tarjeta_PSE';
 
 
 
@@ -34,6 +34,7 @@ function App() {
             <Route path='/versaldo/versaldoPSE' element={ <VerSaldoPSE />} />
             <Route path='/registrartarjeta' element={ <RegistrarTarjeta />} />
             <Route path='/registrartarjetaPSE' element={ <RegistrarTarjetaPSE />} />
+            <Route path='/registrarusuario' element={ <RegistrarUsuario/>} />
         </Routes>
       </BrowserRouter>
     </div>
