@@ -58,7 +58,7 @@ export const getidTarjeta= async (req, res)=>{
 }
 
 
-//CONSULTA el monto actual de la cuenta del usuario 
+//CONSULTA el monto actual de la cuenta del usuario y que el idTarjeta y el usuario esté asociados
 export const getMonto= async (req, res)=>{
   try {
     
@@ -66,6 +66,7 @@ export const getMonto= async (req, res)=>{
       attributes: ['monto'],
       where:{
         id: req.params.id,
+        idTitular: req.query.idTitular
       }
     });
     res.json(tarjeta[0]);
@@ -74,7 +75,8 @@ export const getMonto= async (req, res)=>{
   }
 }
 
-//ACTUALIZA el monto de la tarjeta del usuario y que ese idTarjeta y el usuario estén asociados
+
+//ACTUALIZA el monto de la tarjeta del usuario que tiene ese idTarjeta y el usuario estén asociados
 export const updateMonto= async (req, res)=>{
     try {
       //Buscamos la tarjeta que tenga ese id y ese usuario dueño
