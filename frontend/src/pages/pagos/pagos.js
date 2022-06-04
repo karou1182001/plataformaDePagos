@@ -10,6 +10,10 @@ const URI= "http://localhost:3001/users/";
 
 function CompPagos() {
     /*--------------------VARIABLES------------------------- */
+    const [userName, setUserName] = useState('');
+    const [cc, setCc] = useState(0);
+    const [email, setEmail] = useState('');
+    const [celular, setCelular] = useState('');
     const [conceptoDePago, setconceptoDePago] = useState('');
     const [sede, setsede] = useState('');
     const [franquicia, setfranquicia] = useState('');
@@ -33,7 +37,10 @@ function CompPagos() {
                 {/*Nombre de usuario */}
                 <div className="input-group">
                     <div className="input-box">
-                        <input type="text"
+                        <input
+                        value={userName}
+                        onChange={ (e)=> setUserName(e.target.value)} 
+                        type="text"
                         placeholder="Nombre completo*"
                         required class="name"/>
                         <i className="fa fa-user icon"></i>  
@@ -42,7 +49,10 @@ function CompPagos() {
                 {/*Cédula*/}
                 <div className="input-group">
                     <div className="input-box">
-                        <input type="number"
+                        <input
+                        value={cc}
+                        onChange={ (e)=> setCc(e.target.value)} 
+                        type="number"
                         placeholder="Cédula*"
                         required class="name"/>
                         <i className="fas fa-id-card icon"></i> 
@@ -51,7 +61,10 @@ function CompPagos() {
                 {/*Email de usuario */}
                 <div className="input-group">
                     <div className="input-box">
-                        <input type="email"
+                        <input 
+                        value={email}
+                        onChange={ (e)=> setEmail(e.target.value)} 
+                        type="email"
                         placeholder="Email"
                         required class="name"/>
                         <i className="fa fa-envelope icon"></i>  
@@ -60,7 +73,10 @@ function CompPagos() {
                  {/*Celular*/}
                  <div className="input-group">
                     <div className="input-box">
-                        <input type="tel"
+                        <input 
+                        value={celular}
+                        onChange={ (e)=> setCelular(e.target.value)} 
+                        type="tel"
                         placeholder="Celular"
                         required class="name"/>
                         <i className="fa-solid fa-phone icon"></i> 
@@ -120,7 +136,7 @@ function CompPagos() {
                             {/*---------------------------------------------Componentes----------------------------------------------------------*/}
                             <div className="tab-content" id="pills-tabContent">
                                 <div className="tab-pane fade show active" id="pills-credito" role="tabpanel" aria-labelledby="pills-credito-tab">
-                                    <CompCredito conceptoDePago={conceptoDePago} sede={sede} franquicia={franquicia}/>
+                                    <CompCredito userName={userName} cc={cc} conceptoDePago={conceptoDePago} sede={sede} franquicia={franquicia}/>
                                     
                                 </div>
                                 <div className="tab-pane fade" id="pills-debito" role="tabpanel" aria-labelledby="pills-debito-tab">

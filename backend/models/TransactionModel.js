@@ -8,10 +8,7 @@ const TransactionModel= db.define("transacciones",{
      numCuotas: {type: DataTypes.INTEGER},
      fechaTrans: {
           type: DataTypes.DATE,
-          get() {
-               return moment(this.getDataValue('fechaTrans')).format('DD/MM/YYYY h:mm:ss');
-           },
-          defaultValue: DataTypes.NOW,
+          defaultValue: DataTypes.NOW
      },
      //horaTrans: {type: DataTypes.STRING},
      conceptoDePago: {type: DataTypes.STRING},

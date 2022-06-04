@@ -1,6 +1,6 @@
 import express from "express";
 import { createUser, deleteUser, getAllUsers, getUser, updateUser } from "../controllers/controller.js";
-import { createNewTransaction, updateMonto} from "../controllers/pagosController.js";
+import { getidUsuario,getidTarjeta, createNewTransaction, getMonto, updateMonto} from "../controllers/pagosController.js";
 const app = express();
 const router= express.Router();
 
@@ -12,7 +12,11 @@ router.delete('/:id', deleteUser)
 
 
 //Pagos
+router.get('/pagos/transaccion/', getidUsuario)
+router.get('/pagos/transaccion/tarjeta/', getidTarjeta)
 router.post('/pagos/transaccion/', createNewTransaction)
+router.get('/pagos/transaccion/:id', getMonto)
 router.put('/pagos/transaccion/:id', updateMonto)
+
 
 export default router
