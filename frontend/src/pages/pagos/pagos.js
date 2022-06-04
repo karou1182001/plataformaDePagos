@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import {Link} from "react-router-dom";
 import CompCredito from './credito';
+import CompDebito from './debito';
 import React from 'react';
 import "../../css/payform.css";
 
@@ -140,7 +141,7 @@ function CompPagos() {
                                     
                                 </div>
                                 <div className="tab-pane fade" id="pills-debito" role="tabpanel" aria-labelledby="pills-debito-tab">
-                                    Débito
+                                    <CompDebito></CompDebito>
                                 </div>
                             </div>
                         </div>
