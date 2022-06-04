@@ -1,7 +1,7 @@
 //Este controlador es para realizar las operacionea CRUD en la base de datos
 
-import tarjetaModel from "../models/TarjetaModel.js";
-import tarjetaCreditoModel from "../models/TarjetaCreditoModel.js";
+import TarjetaModel from "../models/TarjetaModel.js";
+import TarjetaCreditoModel from "../models/TarjetaCreditoModel.js";
 import tarjetaPSEModel from "../models/TarjetaPSEModel.js";
 import BancoModel from "../models/BancoModel.js";
 /*---------------------MÉTODOS PARA EL CRUD----------------------- */
@@ -11,11 +11,13 @@ export const getAllTarjetas= async (req, res)=>{
   try {
     var cont=0;
     var data=[new Map()];
-    const tarjetas= await tarjetaModel.findAll();
-    const tarjetasCredito= await tarjetaCreditoModel.findAll();
+    const tarjetas= await TarjetaModel.findAll();
+    const tarjetasCredito= await TarjetaCreditoModel.findAll();
+    console.log(tarjetas[0].id);
     for (var i=0;i<tarjetas.length;i++){
       for (var index = 0; index < tarjetasCredito.length; index++) {
         if(tarjetas[i].id==tarjetasCredito[index].idTarjeta){
+          console.log(tarjetas[i].monto);
           var nombres = tarjetasCredito[index].fechaVenc;
           var listaNombres = nombres.split(' ');
           data[cont]={
@@ -41,7 +43,7 @@ export const getAllTarjetasPSE= async (req, res)=>{
   try {
     var cont=0;
     var data=[new Map()];
-    const tarjetas= await tarjetaModel.findAll();
+    const tarjetas= await TarjetaModel.findAll();
     const tarjetasPSE= await tarjetaPSEModel.findAll();
     const bancos= await BancoModel.findAll();
     for (var i=0;i<tarjetas.length;i++){
@@ -75,7 +77,7 @@ export const getAllTarjetasPSE= async (req, res)=>{
 //Consultar una tarjeta
 export const getTarjeta= async (req, res)=>{
   try {
-    const user= await tarjetaModel.findAll({
+    const user= await TarjetaModel.findAll({
       where:{
         id: req.params.id
       }
@@ -93,8 +95,8 @@ export const createTarjeta= async (req, res)=>{
       monto: req.body.monto,
       idTitular:1
     }
-    await tarjetaModel.create(data);
-    const tarjetas= await tarjetaModel.findAll();
+    await TarjetaModel.create(data);
+    const tarjetas= await TarjetaModel.findAll();
     var data2={
       idTarjeta: tarjetas[tarjetas.length-1].id,
       codSeg:req.body.codSeg,
@@ -103,7 +105,7 @@ export const createTarjeta= async (req, res)=>{
       numTarjeta: req.body.numTarjeta
     }
     console.log('El valor del numero es :' +req.body.numTarjeta);
-    await tarjetaCreditoModel.create(data2);
+    await TarjetaCreditoModel.create(data2);
     res.json({"message": "Tarjeta ingresada con exito"});
 
   } catch (error) {
@@ -120,8 +122,8 @@ export const createTarjetaPSE= async (req, res)=>{
       monto: req.body.monto,
       idTitular:1
     }
-    await tarjetaModel.create(data);
-    const tarjetas= await tarjetaModel.findAll();
+    await TarjetaModel.create(data);
+    const tarjetas= await TarjetaModel.findAll();
     const bancos= await BancoModel.findAll();
     bancos.forEach(element => {
       if(element.nombre==req.body.nombre){
@@ -143,7 +145,7 @@ export const createTarjetaPSE= async (req, res)=>{
 //ACTUALIZAR un usuario
 export const updateTarjeta= async (req, res)=>{
   try {
-    await tarjetaModel.update(req.body, {
+    await TarjetaModel.update(req.body, {
       where: {id: req.params.id}
     });
     res.json({"message": "Usuario actualizado"});
@@ -156,7 +158,7 @@ export const updateTarjeta= async (req, res)=>{
 //Eliminar una tarjeta
 export const deleteTarjeta= async (req, res)=>{
   try {
-    await tarjetaModel.destroy({
+    await TarjetaModel.destroy({
       where: {id: req.params.id}
     });
     res.json({"message": "Tarjeta eliminada"});
