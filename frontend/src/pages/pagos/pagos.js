@@ -144,6 +144,7 @@ function CompPagos() {
                                     <CompDebito></CompDebito>
                                 </div>
                             </div>
+                            
                             <div className="input-group">
                                 <div className="input-box">
                                     <button onClick={console.log("Oprimidos")}>Consultar saldo de mis tarjetas</button>
