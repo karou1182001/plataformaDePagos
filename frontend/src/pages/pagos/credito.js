@@ -158,7 +158,6 @@ function CompCredito({userName, cc, conceptoDePago, sede, franquicia}) {
             <div className="input-group">
                 <div className="input-box">
                     <button onClick={createNewTransaction}>PAY NOW</button>
-                    {/*<button type="submit">PAY NOW</button>*/}
                 </div>
             </div>
         </div>
