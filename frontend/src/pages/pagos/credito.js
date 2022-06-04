@@ -43,12 +43,19 @@ function CompCredito({userName, cc, conceptoDePago, sede, franquicia}) {
             console.log("El id de tarjeta es" + idTarjeta);
 
             if(idUsuario === undefined || idTarjeta === undefined){
-                if(idUsuario === undefined){
-                    alert("La anterior cuenta no coincide con nuestros registros");
+
+                if(idUsuario === undefined && idTarjeta === undefined)
+                {
+                    alert("Datos mal ingresados o incompletos. Rellene correctamente los campos")
+                }else{
+                    if(idUsuario === undefined){
+                        alert("La anterior cuenta no coincide con nuestros registros");
+                    }
+                    if(idTarjeta === undefined){
+                        alert("La anteriores datos de tarjeta no son correctos");
+                    }
                 }
-                if(idTarjeta === undefined){
-                    alert("La anteriores datos de tarjeta no son correctos");
-                }
+               
                 
             }
             else{
