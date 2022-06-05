@@ -3,7 +3,7 @@ import axios from "axios";
 import {Link} from "react-router-dom";
 import React from 'react';
 import "../../css/payform.css";
-
+import { useNavigate } from 'react-router-dom';
 
 // eslint-disable-next-line
 const URI= "http://localhost:3001/users/registrarusuario";
@@ -15,6 +15,7 @@ function RegistrarUsuario() {
     const [userName, setUserName] = useState('');
     const [cc, setCc] = useState();
     const [celular, setCelular] = useState('');
+    const navigate= useNavigate();
     /*------------------MÉTODOS-------------------------------- */
     
     const registerUser= async(e)=>{
@@ -30,7 +31,9 @@ function RegistrarUsuario() {
                         alert('Cedula incorrecta')
                     }else{
                         const res = await axios.post(URI, {email: email,password:password,userName:userName,cc:cc, celular:celular});
-                        if(res.data!=null){
+                        if(res.data==null){
+                            navigate('/pagos')
+                        }else{
                             alert('El email ya se encuentra registrado')
                         }
                     }
@@ -39,8 +42,6 @@ function RegistrarUsuario() {
         } catch (error) {
             alert('Error: '+error.message);
         }
-        //Nos manda a la ruta principal
-       // navigate('/versaldo')
     }
      /*-----------------------INTERFAZ GRÁFICA-------------------------- */
     
@@ -60,7 +61,6 @@ function RegistrarUsuario() {
                         type="email"
                         placeholder="Email"
                         maxlength="45"
-                        pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}"
                         required class="name"/>
                         <i className="fa fa-envelope icon"></i>  
                     </div>
@@ -113,7 +113,7 @@ function RegistrarUsuario() {
                         <i className="fa-solid fa-phone icon"></i> 
                     </div>
                 </div>
-                <button type="submit" onClick={registerUser}   className='btn btn-primary mt-3'>Registrar</button>
+                <button  onClick={registerUser}   className='btn btn-primary mt-3'>Registrar</button>
             </form>
         </div>
 );

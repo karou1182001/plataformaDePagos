@@ -16,9 +16,8 @@ export const registerUser= async (req, res)=>{
     });
     if(usuario==null){
       await UsersModel.create(req.body);
-    }else{
-      res.json(usuario);
     }
+    res.json(usuario);
   } catch (error) {
     res.json({message: error.message});
   }

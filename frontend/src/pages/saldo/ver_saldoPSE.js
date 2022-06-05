@@ -50,9 +50,9 @@ function VerSaldoPSE() {
                         <tbody>
                             { tarjetasPSE.map ( (tarjeta) => (
                                 <tr key={ tarjeta.id} align="center">
-                                    <td> {tarjeta.nombreBanco} </td>
-                                    <td> { tarjeta.monto+'$'} </td>  
-                                    <td> { tarjeta.tipoPersona} </td>            
+                                    <td> <b>{tarjeta.nombreBanco}</b> </td>
+                                    <td> <b>{ tarjeta.monto+'$'}</b> </td>  
+                                    <td> <b>{ tarjeta.tipoPersona}</b> </td>            
                                    <td>
                                    <button onClick={ ()=>deleteTarjeta(tarjeta.id) } className='btn btn-danger'><i className="fas fa-trash-alt"></i></button>
                             </td>

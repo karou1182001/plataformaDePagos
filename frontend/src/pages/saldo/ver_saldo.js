@@ -51,10 +51,10 @@ function VerSaldo() {
                         <tbody>
                             { tarjetas.map ( (tarjeta) => (
                                 <tr key={ tarjeta.id} align="center">
-                                    <td> {tarjeta.numTarjeta} </td>
-                                    <td> {tarjeta.fechaVenc} </td>
-                                    <td> { tarjeta.monto+'$'}</td>  
-                                    <td> { tarjeta.tipo} </td>            
+                                    <td> <b>{tarjeta.numTarjeta} </b></td>
+                                    <td> <b>{tarjeta.fechaVenc}</b> </td>
+                                    <td> <b>{ tarjeta.monto+'$'}</b></td>  
+                                    <td> <b>{ tarjeta.tipo}</b> </td>            
                                    <td>
                                    <button onClick={ ()=>deleteTarjeta(tarjeta.id) } className='btn btn-danger'><i className="fas fa-trash-alt"></i></button>
                             </td>

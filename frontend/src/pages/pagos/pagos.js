@@ -194,7 +194,7 @@ function CompPagos() {
          </FormGroup>
         </ModalBody>
         <ModalFooter>
-            <Button color="primary" onClick={validarInicio}>Iniciar Sesión</Button>
+            <Button color="primary" onClick={validarInicio}>Consultar</Button>
             <Button color="secondary" onClick={handle}>Cerrar</Button>
         </ModalFooter>
     </Modal>
