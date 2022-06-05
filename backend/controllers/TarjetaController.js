@@ -16,7 +16,7 @@ export const getAllTarjetas= async (req, res)=>{
     console.log(tarjetas[0].id);
     for (var i=0;i<tarjetas.length;i++){
       for (var index = 0; index < tarjetasCredito.length; index++) {
-        if(tarjetas[i].id==tarjetasCredito[index].idTarjeta){
+        if(tarjetas[i].id==tarjetasCredito[index].idTarjeta && req.params.id==tarjetas[i].idTitular){
           console.log(tarjetas[i].monto);
           var nombres = tarjetasCredito[index].fechaVenc;
           var listaNombres = nombres.split(' ');
@@ -48,7 +48,7 @@ export const getAllTarjetasPSE= async (req, res)=>{
     const bancos= await BancoModel.findAll();
     for (var i=0;i<tarjetas.length;i++){
       for (var index = 0; index < tarjetasPSE.length; index++) {
-        if(tarjetas[i].id==tarjetasPSE[index].idTarjeta){
+        if(tarjetas[i].id==tarjetasPSE[index].idTarjeta && req.params.id==tarjetas[i].idTitular){
           for (var index2 = 0; index2 < bancos.length; index2++) {
             if(tarjetasPSE[index].idBanco==bancos[index2].id){
               var nombreBanco=bancos[index2].nombre;
@@ -93,7 +93,7 @@ export const createTarjeta= async (req, res)=>{
   try {
     var data={
       monto: req.body.monto,
-      idTitular:1
+      idTitular:req.body.id
     }
     await TarjetaModel.create(data);
     const tarjetas= await TarjetaModel.findAll();
@@ -120,7 +120,7 @@ export const createTarjetaPSE= async (req, res)=>{
     var aux=0;
     var data={
       monto: req.body.monto,
-      idTitular:1
+      idTitular:req.body.id
     }
     await TarjetaModel.create(data);
     const tarjetas= await TarjetaModel.findAll();

@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from "react-router-dom";
 import { useState, } from "react";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useParams  } from 'react-router-dom';
 
 const URI= "http://localhost:3001/tarjetas/";
 function RegistrarTarjeta(){
@@ -11,7 +11,8 @@ function RegistrarTarjeta(){
     //const [codSeg, setcodSeg] = useState('');
     const [fechaVenc, setfechaVenc] = useState('');
     const navigate= useNavigate();
- 
+    const {id} = useParams();
+
     const createTarjeta = async (e) => {
         var numTarjeta="";
         var codSeg=0;
@@ -28,9 +29,9 @@ function RegistrarTarjeta(){
             numTarjeta=Math.floor(Math.random() * (400000000000000 - 300000000000000) + 300000000000000)+'';
             codSeg=Math.floor(Math.random() * (10000 - 1000) + 1000);
         }
-        await axios.post(URI, {tipoTarjeta: tipoTarjeta,monto:Math.floor(Math.random() * (10 - 1) + 1)*1000000,numTarjeta:numTarjeta,codSeg:codSeg,fechaVenc:fechaVenc})
+        await axios.post(URI, {tipoTarjeta: tipoTarjeta,monto:Math.floor(Math.random() * (10 - 1) + 1)*1000000,numTarjeta:numTarjeta,codSeg:codSeg,fechaVenc:fechaVenc,id:id})
         //Nos manda a la ruta principal
-        navigate('/versaldo')
+        navigate('/versaldo/'+id)
     } 
     return(
         <body> 
@@ -47,7 +48,7 @@ function RegistrarTarjeta(){
               {/*<p>CVV: <input type="number" name="cvv" min= "0" max="999" maxlength="3" value={codSeg} onChange={ (e)=> setcodSeg(e.target.value)}  required></input></p>*/}
              <p>Fecha de vencimiento: <input type="date" id="start" name="fecha" min="2022-06-30" max="2030-12-31" value={fechaVenc} onChange={ (e)=> setfechaVenc(e.target.value)} required></input></p>
              <div className='d-flex'>
-             <Link to="/versaldo" className='btn btn-primary mx-5'><i>Atrás</i></Link>
+             <Link to={"/versaldo/"+id} className='btn btn-primary mx-5'><i>Atrás</i></Link>
              <button type="submit" className='btn btn-success mx-3'>Registrar</button>
              </div>
              </form>

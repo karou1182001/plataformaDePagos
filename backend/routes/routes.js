@@ -1,7 +1,7 @@
 import express from "express";
 import { createUser, deleteUser, getAllUsers, getUser, updateUser } from "../controllers/controller.js";
 import { getidUsuario,getidTarjeta, createNewTransaction, getMonto, updateMonto} from "../controllers/pagosController.js";
-import {registerUser} from "../controllers/UsuarioController.js"
+import {loginUser, registerUser} from "../controllers/UsuarioController.js"
 
 const app = express();
 const router= express.Router();
@@ -22,6 +22,6 @@ router.put('/pagos/transaccion/:id', updateMonto)
 
 //Registro de usuario
 router.post('/registrarusuario',registerUser)
-
+router.post('/loginusuario',loginUser)
 
 export default router

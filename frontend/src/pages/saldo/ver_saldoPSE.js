@@ -4,32 +4,32 @@ import {Link} from "react-router-dom";
 import CompCredito from "../pagos/credito";
 import React from 'react';
 import "../../css/payform.css";
-
+import { useParams } from "react-router-dom";
 const URI= "http://localhost:3001/tarjetas/";
 
 
 function VerSaldoPSE() {
      /*--------------------VARIABLES------------------------- */
      const[tarjetasPSE, setPSEList]= useState([]);
-
+     const {id} = useParams();
 
      /*------------------MÉTODOS-------------------------------- */
      useEffect(()=>{
-         getAllTarjetasPSE()
+         getAllTarjetasPSE(id)
      },[])
  
      //Mostrar todas las tarjetas PSE
-     const  getAllTarjetasPSE= async()=>{
-        const res= await axios.get(URI+'/'+'PSE');
+     const  getAllTarjetasPSE= async(id)=>{
+        const res= await axios.get(URI+'/'+'PSE'+'/'+id);
         setPSEList(res.data);
      } 
  
      //Eliminar una tarjeta
-     const deleteTarjeta= async(id)=>{
-         await axios.delete(`${URI}${id}`)
+     const deleteTarjeta= async(id2)=>{
+         await axios.delete(`${URI}${id2}`)
          
          //Llamamos al getAllUsers para ver cómo quedó la lista de usuarios
-         getAllTarjetasPSE()
+         getAllTarjetasPSE(id)
      } 
  
       /*-----------------------INTERFAZ GRÁFICA-------------------------- */
@@ -62,8 +62,8 @@ function VerSaldoPSE() {
                     </table>
                 </div>
                 <div>
-                <Link to="/registrartarjetaPSE" className='btn btn-primary'>Registrar tarjeta   <i class="fa-solid fa-address-card"></i></Link>
-                <Link to="/versaldo" className='btn btn-primary mx-5'>Ver tarjetas de Crédito  <i class="fa-solid fa-arrow-right"></i></Link>
+                <Link to={"/registrartarjetaPSE/"+id} className='btn btn-primary'>Registrar tarjeta   <i class="fa-solid fa-address-card"></i></Link>
+                <Link to={"/versaldo/"+id} className='btn btn-primary mx-5'>Ver tarjetas de Crédito  <i class="fa-solid fa-arrow-right"></i></Link>
                 </div>
              </div>
         </div>

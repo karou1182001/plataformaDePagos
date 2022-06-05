@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import CompCredito from './credito';
 import CompDebito from './debito';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import "../../css/payform.css";
 import {Button,Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Input, Label} from 'reactstrap'
 // eslint-disable-next-line
@@ -19,8 +20,9 @@ function CompPagos() {
     const [sede, setsede] = useState('');
     const [franquicia, setfranquicia] = useState('');
 
+    const [password,setPassword]=useState('');
     const [show, setShow] = useState(false);
-
+    const navigate= useNavigate();
     /*------------------MÉTODOS-------------------------------- */
     
     const handle= () => setShow(!show);
@@ -29,6 +31,26 @@ function CompPagos() {
         top:'50%',
         left:'50%',
         transform: 'translate(-50%,-50%)'
+    }
+    const validarInicio= async()=>{
+        try {
+            if(email.length===0 || password.length===0){
+                alert('Rellenar todos los campos')
+            }else{
+                if(!email.includes('@')){
+                    alert('Email incorrecto')
+                }else{
+                    const res = await axios.post('http://localhost:3001/users/loginusuario', {email: email,password:password});
+                    if(res.data==null){
+                        alert('Usuario no se encuentra registrado')
+                    }else{
+                        navigate('/versaldo/'+res.data.id)
+                    }
+                }
+            }
+        } catch (error) {
+            alert('Error: '+error.message);
+        }
     }
      /*-----------------------INTERFAZ GRÁFICA-------------------------- */
     
@@ -167,11 +189,12 @@ function CompPagos() {
             <p>Llenar el correo de la cuenta y esta contraseña para hacer la consulta</p>
          <FormGroup>
              <Label for="password">Contraseña</Label>
-             <Input type="text" id="password"></Input>
+             <Input type="password" id="password"   value={password}  maxlength='20'
+                        onChange={ (e)=> setPassword(e.target.value)} ></Input>
          </FormGroup>
         </ModalBody>
         <ModalFooter>
-            <Button color="primary">Iniciar Sesión</Button>
+            <Button color="primary" onClick={validarInicio}>Iniciar Sesión</Button>
             <Button color="secondary" onClick={handle}>Cerrar</Button>
         </ModalFooter>
     </Modal>

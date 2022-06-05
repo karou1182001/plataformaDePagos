@@ -23,6 +23,20 @@ export const registerUser= async (req, res)=>{
     res.json({message: error.message});
   }
 }
+export const loginUser= async (req, res)=>{
+  try {
+    var usuario= await UsersModel.findOne({
+      where:{
+        email: req.body.email,
+        password: req.body.password
+      }
+    });
+    res.json(usuario);
+  } catch (error) {
+    res.json({message: error.message});
+  }
+}
+
 
 
 

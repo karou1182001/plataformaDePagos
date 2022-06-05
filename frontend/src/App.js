@@ -26,10 +26,10 @@ function App() {
             <Route path='/pagos' element={ <CompPagos />} />
             <Route path='/create' element={ <CompCreateUser />} />
             <Route path='/edit/:id' element={ <CompEditUser />} />
-            <Route path='/versaldo' element={ <VerSaldo />} />
-            <Route path='/versaldo/versaldoPSE' element={ <VerSaldoPSE />} />
-            <Route path='/registrartarjeta' element={ <RegistrarTarjeta />} />
-            <Route path='/registrartarjetaPSE' element={ <RegistrarTarjetaPSE />} />
+            <Route path='/versaldo/:id' element={ <VerSaldo />} />
+            <Route path='/versaldo/versaldoPSE/:id' element={ <VerSaldoPSE />} />
+            <Route path='/registrartarjeta/:id' element={ <RegistrarTarjeta />} />
+            <Route path='/registrartarjetaPSE/:id' element={ <RegistrarTarjetaPSE />} />
             <Route path='/registrarusuario' element={ <RegistrarUsuario/>} />
         </Routes>
       </BrowserRouter>

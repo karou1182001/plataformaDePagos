@@ -4,32 +4,32 @@ import {Link} from "react-router-dom";
 import CompCredito from "../pagos/credito";
 import React from 'react';
 import "../../css/payform.css";
-
+import { useParams } from "react-router-dom";
 const URI= "http://localhost:3001/tarjetas/";
 
 
 function VerSaldo() {
      /*--------------------VARIABLES------------------------- */
      const[tarjetas, setMontoList]= useState([]);
-
+     const {id} = useParams();
 
      /*------------------MÉTODOS-------------------------------- */
      useEffect(()=>{
-         getAllTarjetas()
+         getAllTarjetas(id)
      },[])
  
      //Mostrar todos las tarjetas de credito
-     const getAllTarjetas= async()=>{
-        const res= await axios.get(URI);
+     const getAllTarjetas= async(id)=>{
+        const res= await axios.get(URI+id);
         setMontoList(res.data);
      } 
  
      //Eliminar una tarjeta
-     const deleteTarjeta= async(id)=>{
-         await axios.delete(`${URI}${id}`)
+     const deleteTarjeta= async(id2)=>{
+         await axios.delete(`${URI}${id2}`)
 
          //Llamamos al getAllUsers para ver cómo quedó la lista de usuarios
-         getAllTarjetas();
+         getAllTarjetas(id);
      } 
  
       /*-----------------------INTERFAZ GRÁFICA-------------------------- */
@@ -65,8 +65,8 @@ function VerSaldo() {
                 </div>
                 <div>
                 <Link to="/pagos" className='btn btn-primary mr-5'><i class="fa-solid fa-arrow-left"></i>   Atrás</Link>
-                <Link to="/registrartarjeta" className='btn btn-primary'>Registrar tarjeta   <i class="fa-solid fa-address-card"></i></Link>
-                <Link to="/versaldo/versaldoPSE" className='btn btn-primary mx-5'>Ver tarjetas PSE  <i class="fa-solid fa-arrow-right"></i></Link>
+                <Link to={"/registrartarjeta/"+id} className='btn btn-primary'>Registrar tarjeta   <i class="fa-solid fa-address-card"></i></Link>
+                <Link to={"/versaldo/versaldoPSE/"+id} className='btn btn-primary mx-5'>Ver tarjetas PSE  <i class="fa-solid fa-arrow-right"></i></Link>
                 </div>
              </div>
         </div>

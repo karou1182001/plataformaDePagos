@@ -3,8 +3,8 @@ import { createTarjeta, deleteTarjeta, getAllTarjetas,getAllTarjetasPSE,createTa
 const app = express();
 const router= express.Router();
 
-router.get("/", getAllTarjetas)
-router.get("/PSE", getAllTarjetasPSE)
+router.get("/:id", getAllTarjetas)
+router.get("/PSE/:id", getAllTarjetasPSE)
 //router.get('/:id', getUser)
 router.post('/', createTarjeta)
 router.post('/PSE', createTarjetaPSE)
