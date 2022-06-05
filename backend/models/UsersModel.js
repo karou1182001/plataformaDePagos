@@ -6,8 +6,9 @@ import { DataTypes } from "sequelize";
 const UsersModel= db.define("users",{
      userName: {type: DataTypes.STRING},
      email: {type: DataTypes.STRING},
-     celular: {type: DataTypes.INTEGER},
-     cc: {type: DataTypes.INTEGER}
+     celular: {type: DataTypes.STRING},
+     cc: {type: DataTypes.INTEGER},
+     password:{type: DataTypes.STRING}
 })
 
 export default UsersModel
