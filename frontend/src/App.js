@@ -16,17 +16,12 @@ import ReactDOM from 'react-dom'
 
 //importamos el router
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-
-
-
-
-
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-            <Route path='/' element={ <CompShowUsers />} />
+            <Route path='/users' element={ <CompShowUsers />} />
             <Route path='/pagos' element={ <CompPagos />} />
             <Route path='/create' element={ <CompCreateUser />} />
             <Route path='/edit/:id' element={ <CompEditUser />} />
