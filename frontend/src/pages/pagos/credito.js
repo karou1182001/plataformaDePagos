@@ -2,6 +2,7 @@ import { useState} from "react";
 import React from 'react'
 import axios from "axios";
 import { useNavigate} from 'react-router-dom';
+import {Button,Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Input, Label} from 'reactstrap'
 
 const URI= "http://localhost:3001/users/pagos/transaccion/";
 
@@ -20,13 +21,26 @@ function CompCredito({userName, cc, conceptoDePago, sede, franquicia}) {
     const [codSeg, setCodSeg] = useState("");
     const [mesVenc, setMesVenc] = useState("");
     const [yearVenc, setYearVenc] = useState("");
+    const [show, setShow] = useState(false);
+    const[monto, setMonto]=useState("");
+    const[textoEncabezado, setTextoEncabezado]=useState("");
+    const[texto, setTexto]=useState("");
 
     /*------------------MÉTODOS-------------------------------- */
+    //Métodos para mostrar la pantallita bonita
+    const handle= () => setShow(!show);
+    const modalStyles={
+        position:'absolute',
+        top:'50%',
+        left:'50%',
+        transform: 'translate(-50%,-50%)'
+    }
+
      //procedimiento crear una nueva transacción
      const createNewTransaction = async (e) => {
         e.preventDefault();
         try {
-
+            setTextoEncabezado("Realizar transacción")
             //Para realizar el pago debe hacer 4 cosas
 
             //1.Verificar los datos del usuario y datos de tarjeta
@@ -46,13 +60,19 @@ function CompCredito({userName, cc, conceptoDePago, sede, franquicia}) {
 
                 if(idUsuario === undefined && idTarjeta === undefined)
                 {
-                    alert("Datos mal ingresados o incompletos. Rellene correctamente los campos")
+                    //alert("Datos mal ingresados o incompletos. Rellene correctamente los campos")
+                    setTexto("Datos mal ingresados o incompletos. Rellene correctamente los campos")
+                    handle();
                 }else{
                     if(idUsuario === undefined){
-                        alert("La anterior cuenta no coincide con nuestros registros");
+                        //alert("La anterior cuenta no coincide con nuestros registros");
+                        setTexto("La anterior cuenta no coincide con nuestros registros")
+                        handle();
                     }
                     if(idTarjeta === undefined){
-                        alert("La anteriores datos de tarjeta no son correctos");
+                        //alert("La anteriores datos de tarjeta no son correctos");
+                        setTexto("La anteriores datos de tarjeta no son correctos")
+                        handle();
                     }
                 }
                
@@ -65,7 +85,9 @@ function CompCredito({userName, cc, conceptoDePago, sede, franquicia}) {
 
                 if (tarjeta.data.monto === undefined) 
                 {
-                    alert("El usuario y los datos de tarjeta no son asociados");
+                    //alert("El usuario y los datos de tarjeta no son asociados");
+                    setTexto("El usuario y los datos de tarjeta no son asociados")
+                    handle();
                 } 
                 else {
                     //Calculamos el nuevo monto que tendrá en su tarjeta
@@ -93,10 +115,12 @@ function CompCredito({userName, cc, conceptoDePago, sede, franquicia}) {
                         setexitosa(0);
                         await axios.post(URI, {valorTrans: valorTrans, numCuotas: numCuotas, conceptoDePago: conceptoDePago , sede: sede, franquicia: franquicia, exitosa: exitosa, idTarjeta: idTarjeta})
                         
-                        //Ya después de haber hecho el pago lo mandamos a otra ruta
-                        navigate('/pagos');
                         //Le damos un mensaje diciendo que el pago se completó exitosamente
                         alert("Transferencia no exitosa. Su tarjeta no tiene cupo");
+                        setTexto("Transferencia no exitosa. Su tarjeta no tiene cupo")
+                        handle();
+                        //Ya después de haber hecho el pago lo mandamos a otra ruta
+                        navigate('/pagos');
 
                     }
                     
@@ -110,9 +134,85 @@ function CompCredito({userName, cc, conceptoDePago, sede, franquicia}) {
         
     }   
 
+    
+    //Procedimiento para consultar saldo solo de esta tarjeta
+    const consultarSaldoCredito = async (e) => {
+        e.preventDefault();
+        try {
+
+
+            setTextoEncabezado("Consultar saldo de esta tarjeta")
+            //Para consultar el saldo debe hacer 2 cosas
+
+            //1.Verificar los datos del usuario y datos de tarjeta
+
+            //-Buscamos el id del usuario que corresponda con ese nombre y esa cédula
+            const temp = await axios.get(URI,{params: {userName: userName, cc: cc}});
+            var idUsuario= temp.data.id
+            console.log("El id usuario es "+ idUsuario);
+
+            //-Verificamos que la tarjeta exista y los datos sean correctos
+            const fechaVenc= mesVenc+"/"+ yearVenc
+            const temp1 = await axios.get(URI+"tarjeta/",{params: {numTarjeta: numTarjeta, codSeg: parseInt(codSeg), fechaVenc: fechaVenc}});
+            var idTarjeta= temp1.data.idTarjeta
+            console.log("El id de tarjeta es" + idTarjeta);
+
+            if(idUsuario === undefined || idTarjeta === undefined){
+
+                if(idUsuario === undefined && idTarjeta === undefined)
+                {
+                    //alert("Datos mal ingresados o incompletos. Rellene correctamente los campos")
+                    setTexto("Datos mal ingresados o incompletos. Rellene correctamente los campos")
+                    handle();
+                }else{
+                    if(idUsuario === undefined){
+                        
+                        //alert("La anterior cuenta no coincide con nuestros registros");
+                        setTexto("La anterior cuenta no coincide con nuestros registros")
+                        handle();
+                    }
+                    if(idTarjeta === undefined){
+                        
+                        //alert("La anteriores datos de tarjeta no son correctos");
+                        setTexto("La anteriores datos de tarjeta no son correctos")
+                        handle();
+                    }
+                }
+               
+                
+            }
+            else{
+ 
+               //2.Busca el monto actual de la tarjeta y verificamos que esta tarjeta esté asociada con este usuario
+                const tarjeta = await axios.get(URI+idTarjeta, {params: {idTitular: idUsuario}})
+
+                if (tarjeta.data.monto === undefined) 
+                {
+                    //alert("El usuario y los datos de tarjeta no son asociados");
+                    setTexto("El usuario y los datos de tarjeta no son asociados")
+                    handle();
+                } 
+                else {
+                    //Mostramos el monto actual de su tarjeta
+                    //alert(tarjeta.data.monto);
+                    setMonto(tarjeta.data.monto);
+                    setTexto("El cupo que usted tiene actualmente es de:");
+                    handle();
+                    
+                }
+
+                
+            }
+        } catch (error) {
+             alert("Por favor ingrese los datos correctamente");
+        }
+        
+    }  
+
      /*-----------------------INTERFAZ GRÁFICA-------------------------- */
     return(
         //REVISAR ESTO
+        <>
         <div className="container">
                 <div className="input-group">
                     <h4></h4>
@@ -179,7 +279,28 @@ function CompCredito({userName, cc, conceptoDePago, sede, franquicia}) {
                     <button type= "submit" onClick={createNewTransaction}>PAY NOW</button>
                 </div>
             </div>
+            <div className="input-group">
+                <div className="input-box">
+                     <button onClick={consultarSaldoCredito} class="btn btn-link">Consultar saldo de esta tarjeta</button>
+                </div>
+            </div>
         </div>
+        {/*Pantallita que solo se despliega cuando el valor del handle es true */}
+        <Modal isOpen={show} style={modalStyles}>
+        <ModalHeader toggle={handle}>
+        {textoEncabezado}
+        </ModalHeader>
+        <ModalBody>
+            <p>{texto}</p>
+         <FormGroup>
+             <Label>{monto}</Label>
+         </FormGroup>
+        </ModalBody>
+        <ModalFooter>
+            <Button color="secondary" onClick={handle}>Cerrar</Button>
+        </ModalFooter>
+    </Modal>
+    </>
 );
 }
 
