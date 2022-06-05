@@ -5,7 +5,7 @@ import CompCredito from './credito';
 import CompDebito from './debito';
 import React from 'react';
 import "../../css/payform.css";
-
+import {Button,Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Input, Label} from 'reactstrap'
 // eslint-disable-next-line
 const URI= "http://localhost:3001/users/";
 
@@ -19,13 +19,21 @@ function CompPagos() {
     const [sede, setsede] = useState('');
     const [franquicia, setfranquicia] = useState('');
 
+    const [show, setShow] = useState(false);
 
     /*------------------MÉTODOS-------------------------------- */
     
-
+    const handle= () => setShow(!show);
+    const modalStyles={
+        position:'absolute',
+        top:'50%',
+        left:'50%',
+        transform: 'translate(-50%,-50%)'
+    }
      /*-----------------------INTERFAZ GRÁFICA-------------------------- */
     
     return(
+        <>
         <div className= "wrapper">
             <form >
                 <div class="payment-logo">
@@ -141,23 +149,35 @@ function CompPagos() {
                                     <CompDebito userName={userName} cc={parseInt(cc)} celular={celular}  conceptoDePago={conceptoDePago} sede={sede} franquicia={franquicia}/>
                                 </div>
                             </div>
-                            
-                            <div className="input-group">
-                                <div className="input-box">
-                                    <button onClick={console.log("Oprimidos")} class="btn btn-link">Consultar saldo de mis tarjetas</button>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
-
             </form>
+            <div className="input-group">
+                <div className="input-box">
+                     <button onClick={handle} class="btn btn-link">Consultar saldo de mis tarjetas</button>
+                </div>
+            </div>
         </div>
-
-       
+        <Modal isOpen={show} style={modalStyles}>
+        <ModalHeader toggle={handle}>
+        Consultar saldo de mis tarjetas
+        </ModalHeader>
+        <ModalBody>
+            <p>Llenar el correo de la cuenta y esta contraseña para hacer la consulta</p>
+         <FormGroup>
+             <Label for="password">Contraseña</Label>
+             <Input type="text" id="password"></Input>
+         </FormGroup>
+        </ModalBody>
+        <ModalFooter>
+            <Button color="primary">Iniciar Sesión</Button>
+            <Button color="secondary" onClick={handle}>Cerrar</Button>
+        </ModalFooter>
+    </Modal>
+    </>
 );
 }
-
 export default CompPagos;
 
 
