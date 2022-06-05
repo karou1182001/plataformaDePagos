@@ -6,7 +6,7 @@ import {Button,Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Input, Lab
 
 const URI= "http://localhost:3001/users/pagos/transaccion/";
 
-function CompCredito({userName, cc, conceptoDePago, sede, franquicia}) {
+function CompCredito({userName, cc, conceptoDePago, sede, franquicia, isToggled}) {
     /*--------------------VARIABLES------------------------- */
     const navigate= useNavigate();
     //El valor de transacción va a ser fijo porque será el costo de matrícula
@@ -281,7 +281,7 @@ function CompCredito({userName, cc, conceptoDePago, sede, franquicia}) {
             </div>
             <div className="input-group">
                 <div className="input-box">
-                     <button onClick={consultarSaldoCredito} class="btn btn-link">Consultar saldo de esta tarjeta</button>
+                     <button onClick={consultarSaldoCredito} disabled={isToggled}class="btn btn-link">Consultar saldo de esta tarjeta</button>
                 </div>
             </div>
         </div>

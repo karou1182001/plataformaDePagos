@@ -23,6 +23,10 @@ function CompPagos() {
     const [password,setPassword]=useState('');
     const [show, setShow] = useState(false);
     const navigate= useNavigate();
+
+
+    const [isToggled, setIsToggled] = useState(false);
+    const onToggle = () => setIsToggled(!isToggled);
     /*------------------MÉTODOS-------------------------------- */
     
     const handle= () => setShow(!show);
@@ -56,6 +60,12 @@ function CompPagos() {
     
     return(
         <>
+        <div className="sw">
+        <label className="toggle-switch">
+      <input type="checkbox" checked={isToggled} onChange={onToggle} />
+      <span className="switch" />
+    </label>
+        </div>
         <div className= "wrapper">
             <form >
                 <div class="payment-logo">
@@ -164,7 +174,7 @@ function CompPagos() {
                             {/*---------------------------------------------Componentes----------------------------------------------------------*/}
                             <div className="tab-content" id="pills-tabContent">
                                 <div className="tab-pane fade show active" id="pills-credito" role="tabpanel" aria-labelledby="pills-credito-tab">
-                                    <CompCredito userName={userName} cc={parseInt(cc)} conceptoDePago={conceptoDePago} sede={sede} franquicia={franquicia}/>
+                                    <CompCredito userName={userName} cc={parseInt(cc)} conceptoDePago={conceptoDePago} sede={sede} franquicia={franquicia} isToggled={isToggled}/>
                                     
                                 </div>
                                 <div className="tab-pane fade" id="pills-debito" role="tabpanel" aria-labelledby="pills-debito-tab">
@@ -177,7 +187,7 @@ function CompPagos() {
             </form>
             <div className="input-group">
                 <div className="input-box">
-                     <button onClick={handle} class="btn btn-link">Consultar saldo de mis tarjetas</button>
+                     <button onClick={handle} disabled={isToggled} class="btn btn-link">Consultar saldo de mis tarjetas</button>
                 </div>
             </div>
         </div>
