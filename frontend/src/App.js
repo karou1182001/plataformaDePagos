@@ -21,6 +21,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
+            <Route path='/' element={ <CompPagos />} />
             <Route path='/users' element={ <CompShowUsers />} />
             <Route path='/pagos' element={ <CompPagos />} />
             <Route path='/create' element={ <CompCreateUser />} />
