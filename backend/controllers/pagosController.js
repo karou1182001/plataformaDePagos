@@ -21,6 +21,7 @@ export const createNewTransaction= async (req, res)=>{
       res.json({message: error.message});
     }
   }
+  
 //CONSULTA el id del usuario que tiene la cédula y nombre que se le pasa por parámetro
 export const getidUsuario= async (req, res)=>{
   try {

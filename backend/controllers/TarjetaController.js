@@ -168,3 +168,19 @@ export const deleteTarjeta= async (req, res)=>{
     res.json({message: error.message});
   }
 }
+
+export const validarUsuario= async (req, res)=>{
+  try {
+    const tarjeta = await TarjetaModel.findOne({
+      where: {idTitular: req.params.id
+      }
+    });
+    const tarjetapse = await tarjetaPSEModel.findOne({
+      where: {idTitular: req.params.id
+      }
+    });
+    res.json({tarjeta});
+  } catch (error) {
+    res.json({message: error.message});
+  }
+}

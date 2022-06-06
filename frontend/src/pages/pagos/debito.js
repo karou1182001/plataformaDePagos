@@ -5,7 +5,7 @@ import axios from "axios";
 import {Link} from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 
-const URI= "http://localhost:3001/users/";
+const URI= "http://localhost:3001/users/pagos/transaccion/";
 
 function CompDebito({userName, cc, celular, conceptoDePago, sede, franquicia}) {
     /* sede, franquicia */
@@ -21,7 +21,6 @@ function CompDebito({userName, cc, celular, conceptoDePago, sede, franquicia}) {
     //const [franquicia, setfranquicia] = useState('');
     const [exitosa, setexitosa] = useState(0);
     const [idTarjeta, setidTarjeta] = useState(1);
-    const [nombreBanco, setnombreBanco] = useState("");
     // 0 = unchecked - 1 = natural - 2 = juridica
     const [tipoDePersona, setTipoDePersona] = useState(null);
     // 0 = unchecked - 1 = East Bank - 2 = Western Bank
@@ -39,28 +38,30 @@ function CompDebito({userName, cc, celular, conceptoDePago, sede, franquicia}) {
             const temp = await axios.get(URI,{params: {userName: userName, cc: cc}});
             var idUsuario= temp.data.id
             console.log("El id usuario es "+ idUsuario);
-            //Verificamos datos de la tarjeta 
 
+            //Verificamos datos de la tarjeta
+            const temp1 = await axios.get("localhost:3001/tarjetas/validarUsuario/"+idUsuario);
+            var idTarjeta= temp1.data.id
+            console.log("El id de tarjeta es "+ idTarjeta);
 
-            const temp1 = await axios.get("localhost:3001/tarjetas/PSE/1");
-            var idTarjeta= temp1.data.idTarjeta
-            console.log("El id de tarjeta es" + idTarjeta);
-
+            
             if(idUsuario === undefined || idTarjeta === undefined){
 
-                if(idUsuario === undefined && idTarjeta === undefined)
-                {
-                    alert("Datos mal ingresados o incompletos. Rellene correctamente los campos")
-                }else{
-                    if(idUsuario === undefined){
-                        alert("La anterior cuenta no coincide con nuestros registros");
-                    }
-                    if(idTarjeta === undefined){
-                        alert("La anteriores datos de tarjeta no son correctos");
-                    }
-                }
-            }
-
+              if(idUsuario === undefined && idTarjeta === undefined)
+              {
+                  alert("Datos mal ingresados o incompletos. Rellene correctamente los campos")
+              }else{
+                  if(idUsuario === undefined){
+                    alert("La anterior cuenta no coincide con nuestros registros");
+                  }
+                  if(idTarjeta === undefined){
+                    alert("La anteriores datos de tarjeta no son correctos");
+                  }
+              }
+             
+              
+          }
+            
             //2.Realiza transación
             await axios.post(URI, {valorTrans: valorTrans, numCuotas: 1, conceptoDePago: conceptoDePago , sede: sede, franquicia: franquicia, exitosa: exitosa, idTarjeta: idTarjeta})
             
@@ -76,9 +77,7 @@ function CompDebito({userName, cc, celular, conceptoDePago, sede, franquicia}) {
         } catch (error) {
              alert(error);
         }
-        
     }
-
      /*-----------------------INTERFAZ GRÁFICA-------------------------- */
     return(
         //REVISAR ESTO
