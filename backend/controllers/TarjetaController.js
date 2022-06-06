@@ -74,6 +74,41 @@ export const getAllTarjetasPSE= async (req, res)=>{
   }
 }
 
+export const getAllTarjetasPSE2= async (req, res)=>{
+  try {
+    var cont=0;
+    var data=[new Map()];
+    const tarjetas= await TarjetaModel.findAll();
+    const tarjetasPSE= await tarjetaPSEModel.findAll();
+    const bancos= await BancoModel.findAll();
+    for (var i=0;i<tarjetas.length;i++){
+      for (var index = 0; index < tarjetasPSE.length; index++) {
+        if(tarjetas[i].id==tarjetasPSE[index].idTarjeta && req.params.id==tarjetas[i].idTitular){
+          for (var index2 = 0; index2 < bancos.length; index2++) {
+            if(tarjetasPSE[index].idBanco==bancos[index2].id){
+              var nombreBanco=bancos[index2].nombre;
+              var estadoBanco=bancos[index2].estado;
+            }
+          }
+            data[cont]={
+              'id': tarjetas[i].id,
+              'monto': tarjetas[i].monto,
+              'tipoPersona':tarjetasPSE[index].tipoPersona,
+              'idBanco': tarjetasPSE[index].idBanco,
+              'nombreBanco':nombreBanco,
+            }
+            cont++;
+            break;
+          
+      }
+        }
+      }
+    res.json(data);
+  } catch (error) {
+    res.json({message: error.message});
+  }
+}
+
 
 
 //Consultar una tarjeta

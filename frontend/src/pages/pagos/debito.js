@@ -40,39 +40,74 @@ function CompDebito({userName, cc, celular, conceptoDePago, sede, franquicia}) {
             console.log("El id usuario es "+ idUsuario);
 
             //Verificamos datos de la tarjeta
-            const temp1 = await axios.get("localhost:3001/tarjetas/validarUsuario/"+idUsuario);
-            var idTarjeta= temp1.data.id
-            console.log("El id de tarjeta es "+ idTarjeta);
+            const temp1 = await axios.get("http://localhost:3001/tarjetas/PSE2/"+idUsuario);
+            var idTarjeta= temp1.data
+            console.log("info pse:", idTarjeta)
+            console.log("length:", idTarjeta.length)
 
-            
-            if(idUsuario === undefined || idTarjeta === undefined){
-
-              if(idUsuario === undefined && idTarjeta === undefined)
-              {
-                  alert("Datos mal ingresados o incompletos. Rellene correctamente los campos")
+            var banconame="";
+            if (tipoBanco===0) {
+            }else{
+              if (tipoBanco===1) {
+                banconame = "East Bank"
               }else{
-                  if(idUsuario === undefined){
-                    alert("La anterior cuenta no coincide con nuestros registros");
-                  }
-                  if(idTarjeta === undefined){
-                    alert("La anteriores datos de tarjeta no son correctos");
-                  }
+                banconame = "Western Bank"
               }
-             
-              
-          }
-            
-            //2.Realiza transación
-            await axios.post(URI, {valorTrans: valorTrans, numCuotas: 1, conceptoDePago: conceptoDePago , sede: sede, franquicia: franquicia, exitosa: exitosa, idTarjeta: idTarjeta})
-            
-            //3.Descuenta monto de la cuenta del usuario
+            }
 
+            var persontype="";
+            if (tipoDePersona===0) {
+            }else{
+              if (tipoDePersona===1) {
+                persontype = "Natural"
+              }else{
+                persontype = "Juridica"
+              }
+            }
+            var sw = 0;
+            for(var i= 0; i<idTarjeta.length;i++){
+              if (idTarjeta[i].nombreBanco === banconame && idTarjeta[i].tipoPersona === persontype) {
+                sw=0;
+                var nuevoMonto = idTarjeta[i].monto - valorTrans;
+                if(nuevoMonto>=0)
+                    {
+                        //3.Descuenta monto de la cuenta del usuario a partir del id de la tajeta
+                        //que está asociada con este usuario
+                        await axios.put(URI+idTarjeta[i].id,{monto: nuevoMonto},{params: {idTitular: idUsuario}})
+                        
+                        //4.Realiza transación
+                        //Como todo ha sido validado hasta acá, la transferencia se considera exitosa
+                        setexitosa(1);
+                        setidTarjeta(idTarjeta[i].id);
+                        await axios.post(URI, {valorTrans: valorTrans, numCuotas: numCuotas, conceptoDePago: conceptoDePago , sede: sede, franquicia: franquicia, exitosa: exitosa, idTarjeta: idTarjeta})
+                        
+                        //Ya después de haber hecho el pago lo mandamos a otra ruta
+                        navigate('/pagos');
+                        //Le damos un mensaje diciendo que el pago se completó exitosamente
+                        alert("Transferencia exitosa");
+                    }
+                    else{
+                        //4.Guarda la transación como no exitosa
+                        setexitosa(0);
+                        await axios.post(URI, {valorTrans: valorTrans, numCuotas: numCuotas, conceptoDePago: conceptoDePago , sede: sede, franquicia: franquicia, exitosa: exitosa, idTarjeta: idTarjeta})
+                        
+                        //Le damos un mensaje diciendo que el pago se completó exitosamente
+                        alert("Transferencia no exitosa. No tiene una tarjeta con esa informacion");
+                        //Ya después de haber hecho el pago lo mandamos a otra ruta
+                        navigate('/pagos');
 
-            
-            //Ya después de haber hecho el pago lo mandamos a otra ruta
-            navigate('/pagos');
-            //Le damos un mensaje diciendo que el pago se completó exitosamente
-            alert("Transferencia exitosa");
+                    }
+                break;
+              }else{
+                sw=1;
+              }
+            }
+
+            if (sw===1) {
+              alert("No se econtro ninguna tarjeta con la informacion suministrada")
+            }
+
+    
             
         } catch (error) {
              alert(error);
