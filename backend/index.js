@@ -8,12 +8,14 @@ import db from "./database/db.js";
 //Enrutador a los métodos del controlador
 import userRoutes from "./routes/routes.js" 
 import tarjetaRoutes from "./routes/TarjetaRoutes.js" 
+import bancoRoutes from './routes/BancoRoutes.js'
 const app = express();
 
 app.use(cors());
 app.use(json());
 app.use("/users",userRoutes);
 app.use("/tarjetas",tarjetaRoutes);
+app.use('/bancosinactivos',bancoRoutes);
 
 
 try {

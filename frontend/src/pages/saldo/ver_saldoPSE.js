@@ -22,6 +22,10 @@ function VerSaldoPSE() {
      const  getAllTarjetasPSE= async(id)=>{
         const res= await axios.get(URI+'/'+'PSE'+'/'+id);
         setPSEList(res.data);
+        const res2= await axios.get('http://localhost:3001/bancosInactivos');
+        if(!res2.data.length==0){
+            alert('Servicios no disponibles en:'+'\n'+res2.data.join('\n'))
+        }
      } 
  
      //Eliminar una tarjeta
