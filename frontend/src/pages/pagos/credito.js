@@ -5,7 +5,7 @@ import { useNavigate} from 'react-router-dom';
 import {Button,Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Input, Label} from 'reactstrap'
 
 const URI= "http://localhost:3001/users/pagos/transaccion/";
-
+const URI2= "http://localhost:3002/";
 function CompCredito({userName, cc, conceptoDePago, sede, franquicia, isToggled}) {
     /*--------------------VARIABLES------------------------- */
     const navigate= useNavigate();
@@ -104,7 +104,7 @@ function CompCredito({userName, cc, conceptoDePago, sede, franquicia, isToggled}
                         //Como todo ha sido validado hasta acá, la transferencia se considera exitosa
                         setexitosa(1);
                         await axios.post(URI, {valorTrans: valorTrans, numCuotas: numCuotas, conceptoDePago: conceptoDePago , sede: sede, franquicia: franquicia, exitosa: 1, idTarjeta: idTarjeta})
-                        
+                        await axios.post(URI2, {valorTrans: valorTrans, numCuotas: numCuotas, conceptoDePago: conceptoDePago , sede: sede, franquicia: franquicia, exitosa: 1, idTarjeta: idTarjeta})
                         //Ya después de haber hecho el pago lo mandamos a otra ruta
                         navigate('/pagos');
                         //Le damos un mensaje diciendo que el pago se completó exitosamente
@@ -113,8 +113,8 @@ function CompCredito({userName, cc, conceptoDePago, sede, franquicia, isToggled}
                     else{
                         //4.Guarda la transación como no exitosa
                         setexitosa(0);
-                        await axios.post(URI, {valorTrans: valorTrans, numCuotas: numCuotas, conceptoDePago: conceptoDePago , sede: sede, franquicia: franquicia, exitosa: exitosa, idTarjeta: idTarjeta})
-                        
+                        await axios.post(URI, {valorTrans: valorTrans, numCuotas: numCuotas, conceptoDePago: conceptoDePago , sede: sede, franquicia: franquicia, exitosa: 0, idTarjeta: idTarjeta})
+                        await axios.post(URI2, {valorTrans: valorTrans, numCuotas: numCuotas, conceptoDePago: conceptoDePago , sede: sede, franquicia: franquicia, exitosa: 0, idTarjeta: idTarjeta})
                         //Le damos un mensaje diciendo que el pago se completó exitosamente
                         alert("Transferencia no exitosa. Su tarjeta no tiene cupo");
                         setTexto("Transferencia no exitosa. Su tarjeta no tiene cupo")
