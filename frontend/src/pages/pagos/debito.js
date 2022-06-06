@@ -95,7 +95,7 @@ function CompDebito({userName, cc, celular, conceptoDePago, sede, franquicia, is
                     else{
                         //4.Guarda la transación como no exitosa
                         setexitosa(0);
-                        await axios.post(URI, {valorTrans: valorTrans, numCuotas: numCuotas, conceptoDePago: conceptoDePago , sede: sede, franquicia: franquicia, exitosa: exitosa, idTarjeta: idTarjeta})
+                        await axios.post(URI, {valorTrans: valorTrans, numCuotas: numCuotas, conceptoDePago: conceptoDePago , sede: sede, franquicia: franquicia, exitosa: 0, idTarjeta: idTarjeta[i].id})
                         
                         //Le damos un mensaje diciendo que el pago se completó exitosamente
                         alert("Transferencia no exitosa. No tiene monto suficiente");
