@@ -24,7 +24,8 @@ export const getAllTarjetas= async (req, res)=>{
             'monto': tarjetas[i].monto,
             'tipo':tarjetasCredito[index].tipoTarjeta,
             'codSeg':tarjetasCredito[index].codSeg,
-            'fechaVenc':listaNombres[0],
+            //'fechaVenc':listaNombres[0],
+            'fechaVenc': "11/23",
             'numTarjeta': tarjetasCredito[index].numTarjeta
           }
           cont++;
