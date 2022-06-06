@@ -22,8 +22,9 @@ function CompDebito({userName, cc, celular, conceptoDePago, sede, franquicia}) {
     const [exitosa, setexitosa] = useState(0);
     const [idTarjeta, setidTarjeta] = useState(1);
     const [nombreBanco, setnombreBanco] = useState("");
-    const [personaNormal, setpersonaNormal] = useState(0);
-    const [personaJuridica, setpersonaJuridica] = useState(1);
+    const [persona, setPersona] = useState(0);
+    // 0 = unckecked - 1 = natural - 2 = juridica
+    const [tipoDePersona, setTipoDePersona] = useState(null);
 
     /*------------------MÉTODOS-------------------------------- */
      //procedimiento crear una nueva transacción
@@ -37,9 +38,30 @@ function CompDebito({userName, cc, celular, conceptoDePago, sede, franquicia}) {
             const temp = await axios.get(URI,{params: {userName: userName, cc: cc}});
             var idUsuario= temp.data.id
             console.log("El id usuario es "+ idUsuario);
+            //Verificamos datos de la tarjeta 
+
+
+            const temp1 = await axios.get(URI+"tarjeta/",{params: {tipoPersona: persona, idBanco : parseInt(nombreBanco) }});
+            var idTarjeta= temp1.data.idTarjeta
+            console.log("El id de tarjeta es" + idTarjeta);
+
+            if(idUsuario === undefined || idTarjeta === undefined){
+
+                if(idUsuario === undefined && idTarjeta === undefined)
+                {
+                    alert("Datos mal ingresados o incompletos. Rellene correctamente los campos")
+                }else{
+                    if(idUsuario === undefined){
+                        alert("La anterior cuenta no coincide con nuestros registros");
+                    }
+                    if(idTarjeta === undefined){
+                        alert("La anteriores datos de tarjeta no son correctos");
+                    }
+                }
+            }
 
             //2.Realiza transación
-            await axios.post(URI, {valorTrans: valorTrans, numCuotas: numCuotas, conceptoDePago: conceptoDePago , sede: sede, franquicia: franquicia, exitosa: exitosa, idTarjeta: idTarjeta})
+            await axios.post(URI, {valorTrans: valorTrans, numCuotas: 1, conceptoDePago: conceptoDePago , sede: sede, franquicia: franquicia, exitosa: exitosa, idTarjeta: idTarjeta})
             
             //3.Descuenta monto de la cuenta del usuario
 
@@ -54,8 +76,7 @@ function CompDebito({userName, cc, celular, conceptoDePago, sede, franquicia}) {
              alert(error);
         }
         
-    }   
-    
+    }
 
      /*-----------------------INTERFAZ GRÁFICA-------------------------- */
     return(
@@ -68,20 +89,28 @@ function CompDebito({userName, cc, celular, conceptoDePago, sede, franquicia}) {
                     {/*Tipo de Persona*/}
                     <h5>Tipo de persona</h5>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
-                            onChange={ (e)=> setpersonaNormal(parseInt(e.target.value))}
-                        />
-                        <label class="form-check-label" for="flexCheckDefault">
-                            Persona Natural
-                        </label>
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        checked={tipoDePersona === 1}
+                        id="persona-natural-checkbox"
+                        onChange={()=> setTipoDePersona(1)}
+                      />
+                      <label class="form-check-label" for="persona-natural-checkbox">
+                        Persona Natural
+                      </label>
                     </div>
-                        <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked"
-                            onChange={ (e)=> setpersonaJuridica(parseInt(e.target.value))}
-                        />
-                        <label class="form-check-label" for="flexCheckChecked">
-                            Persona Juridica
-                        </label>
+                      <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        checked={tipoDePersona === 2}
+                        id="persona-juridica-checkbox"
+                        onChange={()=> setTipoDePersona(2)}
+                      />
+                      <label class="form-check-label" for="persona-juridica-checkbox">
+                        Persona Juridica
+                      </label>
                     </div>
                 <div className="input-group">
                     {/*Nombre del banco*/}
@@ -90,7 +119,7 @@ function CompDebito({userName, cc, celular, conceptoDePago, sede, franquicia}) {
                             <input 
                             onChange={ (e)=> setnombreBanco(parseInt(e.target.value))} 
                             type="string"
-                            placeholder="Escriba su banco (EJ: Bancolombia)"
+                            placeholder="Escriba su banco (EJ: East Bank)"
                             required class="name"/>
                             <i className="fa fa-credit-card icon"></i>  
                     </div>
