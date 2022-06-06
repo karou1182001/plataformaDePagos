@@ -15,6 +15,7 @@ export const createNewTransaction= async (req, res)=>{
     try {
       await TransactionModel.create(req.body);
       res.json({"message": "Transacción realizada"});
+      console.log(req.body);
       console.log("Transacción realizada");
   
     } catch (error) {

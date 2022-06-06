@@ -12,7 +12,7 @@ function CompDebito({userName, cc, celular, conceptoDePago, sede, franquicia}) {
     /*--------------------VARIABLES------------------------- */
     const navigate= useNavigate();
     const [valorTrans, setvalorTrans] = useState(50);
-    const [numCuotas, setnumCuotas] = useState(0);
+    const [numCuotas, setnumCuotas] = useState(1);
     //const [fechaTrans, setfechaTrans] = useState('a');
     //const [horaTrans, sethoraTrans] = useState('a');
     /*Las siguientes 3 variables las cogeremos del componente pagos */
@@ -99,6 +99,7 @@ function CompDebito({userName, cc, celular, conceptoDePago, sede, franquicia}) {
                     }
                 break;
               }else{
+                //no tienen tarjeta o informacion mal administrada
                 sw=1;
               }
             }
