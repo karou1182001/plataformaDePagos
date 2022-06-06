@@ -1,19 +1,8 @@
 # plataformaDePagos
 
-1. Instalar dependencias de Json
+1. Instalar dependencias de Json 
 
-2. Instalar Mysql: 
-Video tutorial= https://youtu.be/FQ7XAygh0qA
-3.Al terminar la instalación al correrlo no les va a hacer la conexión con la base de datoas por la versión de Mysql. Así que tendrán que correr este query en Mysql Worbench
-ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '112358';
-
-4.En mysql Workbench cuando les pida crear contraseña pongan 112358 para no estar cambiándola
-  y deben crear el schema plat_de_pagos 
-
-5. Video base del que nos estamos guiando para hacer el CRUD
-https://youtu.be/nqu9Zt68J_M
-
-6. Para que les pueda correr tiene que abrir dos terminales
+2. Para que les pueda correr tiene que abrir dos terminales
 En la primera terminal van a entrar a la carpeta frontend con el comando:
 cd frontend
 Y van a correr:
@@ -22,3 +11,21 @@ En la segunda terminal van a entrar a la carpeta backend con el comando
 cd backend
 Y van a correr:
 npm run devStart
+
+--------------------------------
+Para correr con docker compose
+
+1. Van a descargar docker desktop
+
+2. Abren docker desktop (IMPORTANTE: Si no no los dejará correr los comandos)
+
+3. Van a correr lo siguiente para descargar las imagemes y escalar a dos contenedores
+docker-compose up --scale expressapp=2
+
+4. Van a crear una nueva conexión en mysql con el 
+hostname= 127.0.0.1
+Port= 3307
+user= root
+password 112358
+
+5. Corren el archivo sql para crear todas las tablas

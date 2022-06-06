@@ -26,7 +26,6 @@ try {
 }
 
 
-
 //Hacemos que la aplicación se abra en el puerto 3001
 app.listen(3001, () => {
     console.log("Yey, your server is running on port 3001");
