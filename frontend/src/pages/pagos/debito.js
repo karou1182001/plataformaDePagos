@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import {Button,Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Input, Label} from 'reactstrap'
 
 const URI= "http://localhost:3001/users/pagos/transaccion/";
+const URI2= "http://localhost:3002/";
 
 function CompDebito({userName, cc, celular, conceptoDePago, sede, franquicia, isToggled}) {
     /* sede, franquicia */
@@ -39,6 +40,7 @@ function CompDebito({userName, cc, celular, conceptoDePago, sede, franquicia, is
      const createNewTransaction = async (e) => {
         e.preventDefault();
         try {
+
             //Para realizar el pago debe hacer 3 cosas
 
             //1.Verificar los datos del usuario
@@ -51,8 +53,6 @@ function CompDebito({userName, cc, celular, conceptoDePago, sede, franquicia, is
             var idTarjeta= temp1.data
             console.log("info pse:", idTarjeta)
             console.log("length:", idTarjeta.length)
-
-            const res2= await axios.get('http://localhost:3001/bancosInactivos');
 
             var banconame="";
             if (tipoBanco===0) {
@@ -75,52 +75,44 @@ function CompDebito({userName, cc, celular, conceptoDePago, sede, franquicia, is
             }
             var sw = 0;
             for(var i= 0; i<idTarjeta.length;i++){
-              if(res2.data.includes(banconame)){
-                alert('El banco seleccionado no tiene el servicio disponible')
+              if (idTarjeta[i].nombreBanco === banconame && idTarjeta[i].tipoPersona === persontype) {
+                sw=0;
+                var nuevoMonto = idTarjeta[i].monto - valorTrans;
+                if(nuevoMonto>=0)
+                    {
+                        //3.Descuenta monto de la cuenta del usuario a partir del id de la tajeta
+                        //que está asociada con este usuario
+                        await axios.put(URI+idTarjeta[i].id,{monto: nuevoMonto},{params: {idTitular: idUsuario}})
+                        
+                        //4.Realiza transación
+                        //Como todo ha sido validado hasta acá, la transferencia se considera exitosa
+                        await axios.post(URI, {valorTrans: valorTrans, numCuotas: numCuotas, conceptoDePago: conceptoDePago , sede: sede, franquicia: franquicia, exitosa: 1, idTarjeta: idTarjeta[i].id})
+                        await axios.post(URI2, {valorTrans: valorTrans, numCuotas: numCuotas, conceptoDePago: conceptoDePago , sede: sede, franquicia: franquicia, exitosa: 1, idTarjeta: idTarjeta[i].id})
+                        //Ya después de haber hecho el pago lo mandamos a otra ruta
+                        navigate('/pagos');
+                        //Le damos un mensaje diciendo que el pago se completó exitosamente
+                        alert("Transferencia exitosa");
+                    }
+                    else{
+                        //4.Guarda la transación como no exitosa
+                        setexitosa(0);
+                        await axios.post(URI, {valorTrans: valorTrans, numCuotas: numCuotas, conceptoDePago: conceptoDePago , sede: sede, franquicia: franquicia, exitosa: 0, idTarjeta: idTarjeta[i].id})
+                        
+                        //Le damos un mensaje diciendo que el pago se completó exitosamente
+                        alert("Transferencia no exitosa. No tiene monto suficiente");
+                        //Ya después de haber hecho el pago lo mandamos a otra ruta
+                        navigate('/pagos');
+
+                    }
                 break;
               }else{
-                if (idTarjeta[i].nombreBanco === banconame && idTarjeta[i].tipoPersona === persontype) {
-                  sw=0;
-                  var nuevoMonto = idTarjeta[i].monto - valorTrans;
-                  if(nuevoMonto>=0)
-                      {
-                          //3.Descuenta monto de la cuenta del usuario a partir del id de la tajeta
-                          //que está asociada con este usuario
-                          await axios.put(URI+idTarjeta[i].id,{monto: nuevoMonto},{params: {idTitular: idUsuario}})
-                          
-                          //4.Realiza transación
-                          //Como todo ha sido validado hasta acá, la transferencia se considera exitosa
-                          setexitosa(1);
-                          setidTarjeta(idTarjeta[i].id);
-                          await axios.post(URI, {valorTrans: valorTrans, numCuotas: numCuotas, conceptoDePago: conceptoDePago , sede: sede, franquicia: franquicia, exitosa: exitosa, idTarjeta: idTarjeta})
-                          
-                          //Ya después de haber hecho el pago lo mandamos a otra ruta
-                          navigate('/pagos');
-                          //Le damos un mensaje diciendo que el pago se completó exitosamente
-                          alert("Transferencia exitosa");
-                      }
-                      else{
-                          //4.Guarda la transación como no exitosa
-                          setexitosa(0);
-                          await axios.post(URI, {valorTrans: valorTrans, numCuotas: numCuotas, conceptoDePago: conceptoDePago , sede: sede, franquicia: franquicia, exitosa: exitosa, idTarjeta: idTarjeta})
-                          
-                          //Le damos un mensaje diciendo que el pago se completó exitosamente
-                          alert("Transferencia no exitosa. No tiene una tarjeta con esa informacion");
-                          //Ya después de haber hecho el pago lo mandamos a otra ruta
-                          navigate('/pagos');
-  
-                      }
-                  break;
-                }else{
-                  //no tienen tarjeta o informacion mal administrada
-                  sw=1;
-                }
+                //no tienen tarjeta o informacion mal administrada
+                sw=1;
               }
-            
             }
 
             if (sw===1) {
-              setTexto("Datosde tarjeta mal ingresados o incompletos. Rellene correctamente los campos")
+              setTexto("Datos de tarjeta mal ingresados o incompletos. Rellene correctamente los campos")
               handle();
             }
 
