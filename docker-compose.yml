@@ -14,10 +14,10 @@ services:
       - ./frontend:/usr/src/app
 
   expressapp:
-    container_name: expressapp
+    #container_name: expressapp
     build: ./backend
-    ports:
-      - "3001:3001"
+    #ports:
+    #  - "3001:3001"
     expose:
       - 3001
     #networks:
@@ -41,6 +41,14 @@ services:
     #  - mern-app
     volumes:
       - db:/data/db
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./conf.d:/etc/nginx/conf.d
+    depends_on:
+      - expressapp
+    ports:
+      - "3001:3001"
 
 #networks:
 #  mern-app:
