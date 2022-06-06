@@ -16,6 +16,7 @@ npm run devStart
 Para correr con docker compose
 
 1. Van a descargar docker desktop
+Descargar extensión de visual
 
 2. Abren docker desktop (IMPORTANTE: Si no no los dejará correr los comandos)
 
