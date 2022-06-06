@@ -12,6 +12,7 @@ function RegistrarTarjetaPSE(){
     const {id} = useParams();
     const [desactivar,setDesactivar]=useState(false);
     const [desactivar2,setDesactivar2]=useState(false);
+    const [desactivar3,setDesactivar3]=useState(false);
     useEffect(()=>{
         bancosInactivos();
     },[])
@@ -25,6 +26,9 @@ function RegistrarTarjetaPSE(){
                 if(res2.data[i]=='East Bank'){
                     setDesactivar2(true);
                 }
+            }
+            if(res2.data.length>1){
+                setDesactivar3(true);
             }
         }
      } 
@@ -49,7 +53,7 @@ function RegistrarTarjetaPSE(){
             </p>   
             <div className='d-flex'>
             <Link to={"/versaldo/versaldoPSE/"+id} className='btn btn-primary mx-5'><i>Atrás</i></Link>
-            <button type="submit" className='btn btn-success mx-3'>Registrar</button>
+            <button type="submit" className='btn btn-success mx-3' disabled={desactivar3}>Registrar</button>
             </div>
             </form>
             </div>
