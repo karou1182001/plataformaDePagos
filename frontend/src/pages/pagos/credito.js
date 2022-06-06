@@ -103,7 +103,7 @@ function CompCredito({userName, cc, conceptoDePago, sede, franquicia, isToggled}
                         //4.Realiza transación
                         //Como todo ha sido validado hasta acá, la transferencia se considera exitosa
                         setexitosa(1);
-                        await axios.post(URI, {valorTrans: valorTrans, numCuotas: numCuotas, conceptoDePago: conceptoDePago , sede: sede, franquicia: franquicia, exitosa: exitosa, idTarjeta: idTarjeta})
+                        await axios.post(URI, {valorTrans: valorTrans, numCuotas: numCuotas, conceptoDePago: conceptoDePago , sede: sede, franquicia: franquicia, exitosa: 1, idTarjeta: idTarjeta})
                         
                         //Ya después de haber hecho el pago lo mandamos a otra ruta
                         navigate('/pagos');

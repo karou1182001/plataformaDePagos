@@ -79,7 +79,9 @@ function CompDebito({userName, cc, celular, conceptoDePago, sede, franquicia}) {
                         //Como todo ha sido validado hasta acá, la transferencia se considera exitosa
                         setexitosa(1);
                         setidTarjeta(idTarjeta[i].id);
-                        await axios.post(URI, {valorTrans: valorTrans, numCuotas: numCuotas, conceptoDePago: conceptoDePago , sede: sede, franquicia: franquicia, exitosa: exitosa, idTarjeta: idTarjeta})
+                        console.log(exitosa);
+                        console.log(idTarjeta[i].id);
+                        await axios.post(URI, {valorTrans: valorTrans, numCuotas: numCuotas, conceptoDePago: conceptoDePago , sede: sede, franquicia: franquicia, exitosa: 1, idTarjeta: idTarjeta[i].id})
                         
                         //Ya después de haber hecho el pago lo mandamos a otra ruta
                         navigate('/pagos');
