@@ -10,7 +10,7 @@ function CompCredito({userName, cc, conceptoDePago, sede, franquicia, isToggled}
     /*--------------------VARIABLES------------------------- */
     const navigate= useNavigate();
     //El valor de transacción va a ser fijo porque será el costo de matrícula
-    const [valorTrans, setvalorTrans] = useState(10);
+    const [valorTrans, setvalorTrans] = useState(50);
     const [numCuotas, setnumCuotas] = useState(1);
     /*Las siguientes 3 variables las cogeremos del componente pagos */
     //const [conceptoDePago, setconceptoDePago] = useState('');
