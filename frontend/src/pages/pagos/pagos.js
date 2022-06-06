@@ -178,7 +178,7 @@ function CompPagos() {
                                     
                                 </div>
                                 <div className="tab-pane fade" id="pills-debito" role="tabpanel" aria-labelledby="pills-debito-tab">
-                                    <CompDebito userName={userName} cc={parseInt(cc)} celular={celular}  conceptoDePago={conceptoDePago} sede={sede} franquicia={franquicia}/>
+                                    <CompDebito userName={userName} cc={parseInt(cc)} celular={celular}  conceptoDePago={conceptoDePago} sede={sede} franquicia={franquicia} isToggled={isToggled}/>
                                 </div>
                             </div>
                         </div>

@@ -4,20 +4,16 @@ import ReactDOM from 'react-dom'
 import axios from "axios";
 import {Link} from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
+import {Button,Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Input, Label} from 'reactstrap'
 
 const URI= "http://localhost:3001/users/pagos/transaccion/";
 
-function CompDebito({userName, cc, celular, conceptoDePago, sede, franquicia}) {
+function CompDebito({userName, cc, celular, conceptoDePago, sede, franquicia, isToggled}) {
     /* sede, franquicia */
     /*--------------------VARIABLES------------------------- */
     const navigate= useNavigate();
     const [valorTrans, setvalorTrans] = useState(50);
     const [numCuotas, setnumCuotas] = useState(1);
-    //const [fechaTrans, setfechaTrans] = useState('a');
-    //const [horaTrans, sethoraTrans] = useState('a');
-    /*Las siguientes 3 variables las cogeremos del componente pagos */
-    //const [conceptoDePago, setconceptoDePago] = useState('');
-    //const [sede, setsede] = useState('');
     //const [franquicia, setfranquicia] = useState('');
     const [exitosa, setexitosa] = useState(0);
     const [idTarjeta, setidTarjeta] = useState(1);
@@ -25,8 +21,20 @@ function CompDebito({userName, cc, celular, conceptoDePago, sede, franquicia}) {
     const [tipoDePersona, setTipoDePersona] = useState(null);
     // 0 = unchecked - 1 = East Bank - 2 = Western Bank
     const [tipoBanco, setTipoBanco] = useState(null);
+    const [show, setShow] = useState(false);
+    const[monto, setMonto]=useState("");
+    const[textoEncabezado, setTextoEncabezado]=useState("");
+    const[texto, setTexto]=useState("");
 
     /*------------------MÉTODOS-------------------------------- */
+    //Métodos para mostrar la pantallita bonita
+    const handle= () => setShow(!show);
+    const modalStyles={
+        position:'absolute',
+        top:'50%',
+        left:'50%',
+        transform: 'translate(-50%,-50%)'
+    }
      //procedimiento crear una nueva transacción
      const createNewTransaction = async (e) => {
         e.preventDefault();
@@ -112,7 +120,8 @@ function CompDebito({userName, cc, celular, conceptoDePago, sede, franquicia}) {
             }
 
             if (sw===1) {
-              alert("No se econtro ninguna tarjeta con la informacion suministrada")
+              setTexto("Datosde tarjeta mal ingresados o incompletos. Rellene correctamente los campos")
+              handle();
             }
 
     
@@ -121,9 +130,73 @@ function CompDebito({userName, cc, celular, conceptoDePago, sede, franquicia}) {
              alert(error);
         }
     }
+    //procedimiento crear una nueva transacción
+    const consultarSaldoDedito = async (e) => {
+      e.preventDefault();
+      try {
+          setTextoEncabezado("Consultar saldo de esta tarjeta")
+          //Para realizar el pago debe hacer 3 cosas
+
+          //1.Verificar los datos del usuario
+          const temp = await axios.get(URI,{params: {userName: userName, cc: cc}});
+          var idUsuario= temp.data.id
+          console.log("El id usuario es "+ idUsuario);
+
+          //Verificamos datos de la tarjeta
+          const temp1 = await axios.get("http://localhost:3001/tarjetas/PSE2/"+idUsuario);
+          var idTarjeta= temp1.data
+          console.log("info pse:", idTarjeta)
+          console.log("length:", idTarjeta.length)
+
+          var banconame="";
+          if (tipoBanco===0) {
+          }else{
+            if (tipoBanco===1) {
+              banconame = "East Bank"
+            }else{
+              banconame = "Western Bank"
+            }
+          }
+
+          var persontype="";
+          if (tipoDePersona===0) {
+          }else{
+            if (tipoDePersona===1) {
+              persontype = "Natural"
+            }else{
+              persontype = "Juridica"
+            }
+          }
+          var sw = 0;
+          for(var i= 0; i<idTarjeta.length;i++){
+            if (idTarjeta[i].nombreBanco === banconame && idTarjeta[i].tipoPersona === persontype) {
+              sw=0;
+              setMonto(idTarjeta[i].monto);
+              setTexto("El monto que usted tiene actualmente es de:");
+              handle();
+
+              break;
+            }else{
+              //no tienen tarjeta o informacion mal administrada
+              sw=1;
+            }
+          }
+
+          if (sw===1) {
+            setTexto("Datosde tarjeta mal ingresados o incompletos. Rellene correctamente los campos")
+            handle();
+          }
+
+  
+          
+      } catch (error) {
+           alert(error);
+      }
+  }
      /*-----------------------INTERFAZ GRÁFICA-------------------------- */
     return(
         //REVISAR ESTO
+        <>
         <div className="container">
           <div className="input-group">
                   <div>
@@ -187,8 +260,29 @@ function CompDebito({userName, cc, celular, conceptoDePago, sede, franquicia}) {
                         {/*<button type="submit">PAY NOW</button>*/}
                       </div>
                   </div>
+                  <div className="input-group">
+                      <div className="input-box">
+                          <button onClick={consultarSaldoDedito} disabled={isToggled}class="btn btn-link">Consultar saldo de esta tarjeta</button>
+                      </div>
+                  </div>
           </div>
         </div>
+        {/*Pantallita que solo se despliega cuando el valor del handle es true */}
+        <Modal isOpen={show} style={modalStyles}>
+        <ModalHeader toggle={handle}>
+        {textoEncabezado}
+        </ModalHeader>
+        <ModalBody>
+            <p>{texto}</p>
+         <FormGroup>
+             <Label>{monto}</Label>
+         </FormGroup>
+        </ModalBody>
+        <ModalFooter>
+            <Button color="secondary" onClick={handle}>Cerrar</Button>
+        </ModalFooter>
+    </Modal>
+    </>
 );
 
 }
