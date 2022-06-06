@@ -15,12 +15,14 @@ export const createNewTransaction= async (req, res)=>{
     try {
       await TransactionModel.create(req.body);
       res.json({"message": "Transacción realizada"});
+      console.log(req.body);
       console.log("Transacción realizada");
   
     } catch (error) {
       res.json({message: error.message});
     }
   }
+  
 //CONSULTA el id del usuario que tiene la cédula y nombre que se le pasa por parámetro
 export const getidUsuario= async (req, res)=>{
   try {
