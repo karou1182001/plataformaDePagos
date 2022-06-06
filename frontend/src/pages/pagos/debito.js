@@ -22,9 +22,10 @@ function CompDebito({userName, cc, celular, conceptoDePago, sede, franquicia}) {
     const [exitosa, setexitosa] = useState(0);
     const [idTarjeta, setidTarjeta] = useState(1);
     const [nombreBanco, setnombreBanco] = useState("");
-    const [persona, setPersona] = useState(0);
-    // 0 = unckecked - 1 = natural - 2 = juridica
+    // 0 = unchecked - 1 = natural - 2 = juridica
     const [tipoDePersona, setTipoDePersona] = useState(null);
+    // 0 = unchecked - 1 = East Bank - 2 = Western Bank
+    const [tipoBanco, setTipoBanco] = useState(null);
 
     /*------------------MÉTODOS-------------------------------- */
      //procedimiento crear una nueva transacción
@@ -41,7 +42,7 @@ function CompDebito({userName, cc, celular, conceptoDePago, sede, franquicia}) {
             //Verificamos datos de la tarjeta 
 
 
-            const temp1 = await axios.get(URI+"tarjeta/",{params: {tipoPersona: persona, idBanco : parseInt(nombreBanco) }});
+            const temp1 = await axios.get("localhost:3001/tarjetas/PSE/1");
             var idTarjeta= temp1.data.idTarjeta
             console.log("El id de tarjeta es" + idTarjeta);
 
@@ -82,10 +83,8 @@ function CompDebito({userName, cc, celular, conceptoDePago, sede, franquicia}) {
     return(
         //REVISAR ESTO
         <div className="container">
-                <div className="input-group">
-                    <h4></h4>
-                    <img src="/images/tarjetasvalidas.png"  width="150" alt="images"></img>
-                </div>  
+          <div className="input-group">
+                  <div>
                     {/*Tipo de Persona*/}
                     <h5>Tipo de persona</h5>
                     <div class="form-check">
@@ -100,7 +99,7 @@ function CompDebito({userName, cc, celular, conceptoDePago, sede, franquicia}) {
                         Persona Natural
                       </label>
                     </div>
-                      <div class="form-check">
+                    <div class="form-check">
                       <input
                         class="form-check-input"
                         type="checkbox"
@@ -112,24 +111,41 @@ function CompDebito({userName, cc, celular, conceptoDePago, sede, franquicia}) {
                         Persona Juridica
                       </label>
                     </div>
-                <div className="input-group">
-                    {/*Nombre del banco*/}
-                    <h5>Nombre del banco</h5>
-                    <div className="input-box">
-                            <input 
-                            onChange={ (e)=> setnombreBanco(parseInt(e.target.value))} 
-                            type="string"
-                            placeholder="Escriba su banco (EJ: East Bank)"
-                            required class="name"/>
-                            <i className="fa fa-credit-card icon"></i>  
+                    {/*Tipo de Banco*/}
+                    <h5>Banco</h5>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        checked={tipoBanco === 1}
+                        id="east-bank-checkbox"
+                        onChange={()=> setTipoBanco(1)}
+                      />
+                      <label class="form-check-label" for="east-bank-checkbox">
+                        East Bank
+                      </label>
                     </div>
-                </div>
-                <div className="input-group">
-                        <div className="input-box">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        checked={tipoBanco === 2}
+                        id="western-bank-checkbox"
+                        onChange={()=> setTipoBanco(2)}
+                      />
+                      <label class="form-check-label" for="western-bank-checkbox">
+                        Western Bank
+                      </label>
+                    </div>
+                  </div>
+
+                  <div className="input-group">
+                      <div className="input-box">
                         <button onClick={createNewTransaction}>PAY NOW</button>
                         {/*<button type="submit">PAY NOW</button>*/}
-                </div>
-            </div>
+                      </div>
+                  </div>
+          </div>
         </div>
 );
 
