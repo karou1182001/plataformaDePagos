@@ -1,0 +1,50 @@
+version: '3.9'
+services:
+  reactapp:
+    container_name: reactapp
+    build: ./frontend
+    stdin_open: true
+    ports:
+      - "3000:3000"
+    expose:
+      - 3000
+    #networks:
+    #  - mern-app
+    volumes:
+      - ./frontend:/usr/src/app
+
+  expressapp:
+    container_name: expressapp
+    build: ./backend
+    ports:
+      - "3001:3001"
+    expose:
+      - 3001
+    #networks:
+    #  - mern-app
+    volumes:
+      - ./backend:/usr/src/app
+    depends_on:
+      - mysqldb
+
+  mysqldb:
+    image: mysql:5.7
+    container_name: mysqldb
+    restart: always
+    environment:
+      #- MYSQL_USER=root
+      - MYSQL_DATABASE=plat_de_pagos
+      - MYSQL_ROOT_PASSWORD=112358
+    ports:
+      - '3307:3306'
+    #networks:
+    #  - mern-app
+    volumes:
+      - db:/data/db
+
+#networks:
+#  mern-app:
+#    driver: bridge
+volumes:
+  db:
+    driver: local

@@ -8,6 +8,7 @@ import db from "./database/db.js";
 //Enrutador a los métodos del controlador
 import userRoutes from "./routes/routes.js" 
 import tarjetaRoutes from "./routes/TarjetaRoutes.js" 
+//require("dotenv").config();
 const app = express();
 
 app.use(cors());
@@ -22,7 +23,6 @@ try {
 } catch (error) {
     console.error('error: ' + error.message);
 }
-
 
 
 //Hacemos que la aplicación se abra en el puerto 3001
